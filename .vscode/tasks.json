@@ -1,0 +1,63 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "COOP: Install database + demo data",
+      "detail": "Creates coop_db (tables, views, triggers, event, app account), .env and the demo data. Replaces an existing coop_db.",
+      "type": "shell",
+      "command": "php",
+      "args": ["database/install.php", "--yes", "--root-user=${input:mysqlRootUser}", "--root-pass=${input:mysqlRootPassword}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "COOP: Start website",
+      "detail": "PHP built-in server on http://127.0.0.1:8080 (stop it with the trash-can icon in the terminal).",
+      "type": "shell",
+      "command": "php",
+      "args": ["-S", "127.0.0.1:8080", "-t", "public", "public/index.php"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "php-server",
+        "pattern": { "regexp": "^__never__$" },
+        "background": { "activeBegins": true, "beginsPattern": "PHP .* Development Server", "endsPattern": "Development Server \\(http://127\\.0\\.0\\.1:8080\\) started" }
+      },
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "COOP: Open in browser",
+      "type": "shell",
+      "command": "xdg-open http://127.0.0.1:8080",
+      "windows": { "command": "start http://127.0.0.1:8080" },
+      "osx": { "command": "open http://127.0.0.1:8080" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "never" }
+    },
+    {
+      "label": "COOP: Start website and open browser",
+      "dependsOrder": "sequence",
+      "dependsOn": ["COOP: Start website", "COOP: Open in browser"],
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "COOP: Install test tools (once)",
+      "detail": "npm install + the Chromium browser Playwright uses.",
+      "type": "shell",
+      "command": "npm install && npx playwright install chromium",
+      "problemMatcher": []
+    },
+    {
+      "label": "COOP: Run tests",
+      "detail": "Every page for every role (the website must be running). Other suites: npm run test:all",
+      "type": "shell",
+      "command": "npm test",
+      "problemMatcher": [],
+      "group": { "kind": "test", "isDefault": true }
+    }
+  ],
+  "inputs": [
+    { "id": "mysqlRootUser", "type": "promptString", "description": "MySQL admin user (Laragon/XAMPP: root)", "default": "root" },
+    { "id": "mysqlRootPassword", "type": "promptString", "description": "MySQL admin password (Laragon/XAMPP: leave empty)", "default": "", "password": true }
+  ]
+}

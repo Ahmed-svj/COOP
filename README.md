@@ -9,6 +9,8 @@ MIS 451 capstone, Jubail Industrial College. Built from the *COOP Development Gu
 
 ## Run it locally
 
+**In Visual Studio Code:** see **[VSCODE.md](VSCODE.md)**. Either reopen in the Dev Container (Docker) or run the task "COOP: Install database + demo data", then press F5.
+
 **On Windows with Laragon:** see **[LARAGON.md](LARAGON.md)**. Put the folder in `C:\laragon\www\coop`, run `install-laragon.bat` from the Laragon Terminal, and open http://coop.test.
 
 **Any other setup (XAMPP, Linux, macOS):**
@@ -19,7 +21,7 @@ MIS 451 capstone, Jubail Industrial College. Built from the *COOP Development Gu
    mysql -u root -p < database/schema.sql
    ```
 3. Copy `.env.example` to `.env`. Set `DB_PASS` to the `coop_app` password from `schema.sql`, and change that password before going live.
-4. Load demo data, or create only the first admin:
+4. Load demo data, or create only the first admin. `php database/install.php` does steps 2–4 in one go on any operating system:
    ```bash
    php database/seed.php
    php database/create_admin.php "COOP Admin" admin@ecoop.test "Coop2026!"

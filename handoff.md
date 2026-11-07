@@ -44,6 +44,10 @@ Build the COOP Cooperative Training Management System website described in `COOP
   - Live preview: https://ahmed-svj.github.io/COOP/ (Pages from the repository root; the root `index.html` opens `docs/`).
   - The Tests workflow passes on GitHub Actions.
   - Two problems were found and fixed on the first push: the `vendor/` ignore rule had left out Bootstrap and Chart.js, and an XSS test read the page in a way that depends on the Chromium version.
+- **Visual Studio Code:** see `VSCODE.md`.
+  - `.vscode/` holds the tasks (install the database, start the website, open the browser, tests), an F5 launch that starts the site with Xdebug, and recommended extensions.
+  - Option A is "Reopen in Container" (the tested `.devcontainer`). Option B is local PHP and MySQL with the new cross-platform `database/install.php` (no `mysql` command-line client needed; it handles the `DELIMITER` blocks itself).
+  - Tested here: the installer (32 statements, triggers, views, event, `.env`, demo data), the task and F5 "server ready" patterns against real PHP server output, and `npm test`. VS Code itself could not be run here.
 - **Laragon (Windows):** see `LARAGON.md`.
   - `install-laragon.bat` checks PHP and its extensions, creates the database and app account, writes `.env` and loads the demo data.
   - `cron/register-tasks.bat` adds the scheduled jobs to Windows Task Scheduler, and `cron/backup.bat` makes the daily backup.

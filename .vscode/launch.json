@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "COOP: Run website (F5, with debugger)",
+      "type": "php",
+      "request": "launch",
+      "runtimeArgs": ["-dxdebug.mode=debug", "-dxdebug.start_with_request=yes", "-S", "127.0.0.1:8080", "-t", "public", "public/index.php"],
+      "program": "",
+      "cwd": "${workspaceFolder}",
+      "port": 9003,
+      "serverReadyAction": {
+        "pattern": "Development Server \\(http://127\\.0\\.0\\.1:([0-9]+)\\) started",
+        "uriFormat": "http://127.0.0.1:%s",
+        "action": "openExternally"
+      }
+    },
+    {
+      "name": "COOP: Listen for Xdebug (site already running)",
+      "type": "php",
+      "request": "launch",
+      "port": 9003
+    }
+  ]
+}

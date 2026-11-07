@@ -1,0 +1,8 @@
+{
+  "intelephense.environment.phpVersion": "8.3.0",
+  "files.eol": "\n",
+  "[bat]": { "files.eol": "\r\n" },
+  "files.exclude": { "**/node_modules": true },
+  "search.exclude": { "public/assets/vendor/**": true, "docs/**": true, "coop-website.html": true },
+  "editor.formatOnSave": false
+}

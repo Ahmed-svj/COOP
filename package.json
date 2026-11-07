@@ -1,0 +1,13 @@
+{
+  "name": "coop-tests",
+  "private": true,
+  "description": "Browser tests for COOP (the website must be running on http://127.0.0.1:8080)",
+  "scripts": {
+    "test": "node tests/e2e-pages.js",
+    "test:links": "node tests/e2e-links.js",
+    "test:all": "node tests/e2e-pages.js && node tests/e2e-links.js && node tests/e2e-avatar-lang.js && node tests/e2e-settings.js && node tests/e2e-attendance-change.js && node tests/e2e-register-supervisor.js"
+  },
+  "devDependencies": {
+    "playwright": "1.49.1"
+  }
+}
