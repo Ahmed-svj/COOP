@@ -15,7 +15,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); 
   ok(info.broken.length === 0, `all ${info.links} links land on one of ${info.pages} pages`);
 
   let s = await go('company-company-applicants');
-  await s.locator('button[data-bs-target^="#rej-"]').first().click(); await pg.waitForTimeout(400);
+  await s.locator('button[data-bs-target*="--rej-"]').first().click(); await pg.waitForTimeout(400);
   await pg.fill('.modal.show textarea', 'Not a match this term.'); await pg.click('.modal.show button[type=submit]'); await pg.waitForTimeout(400);
   ok((await flash()).includes('Applicant rejected'), 'company: Reject (with reason) works');
   s = await go('company-company-daily-code');
@@ -46,6 +46,11 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); 
   s = await go('supervisor-supervisor-attendance');
   await s.locator('form[data-action$="/approve-all"] button').first().click(); await pg.waitForTimeout(250);
   ok((await flash()).includes('check-ins approved'), 'supervisor: Approve all works');
+
+  s = await go('supervisor-supervisor-attendance-status-approved');
+  await s.locator('button[data-bs-target*="--chg-"]').first().click(); await pg.waitForTimeout(400);
+  await pg.locator('.modal.show textarea').fill('Not on site that day.'); await pg.click('.modal.show button[type=submit]'); await pg.waitForTimeout(300);
+  ok((await flash()).includes('Attendance changed to Rejected'), 'supervisor: Change attendance status works');
 
   s = await go('student-student-dashboard');
   const boxes = s.locator('form[data-code-form] .co-code input'); for (let i = 0; i < 6; i++) await boxes.nth(i).fill(String(i + 1));

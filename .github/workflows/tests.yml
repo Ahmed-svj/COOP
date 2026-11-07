@@ -43,6 +43,7 @@ jobs:
           node tests/e2e-avatar-lang.js
           node tests/e2e-settings.js
           node tests/e2e-links.js
+          node tests/e2e-attendance-change.js
           node tests/preview-buttons.js
           mysql < database/schema.sql && php database/seed.php > /dev/null
           node tests/e2e-flow.js

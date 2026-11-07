@@ -346,4 +346,13 @@ return [
     'n.attendance_reminder' => "صباح الخير — تذكّر تسجيل حضورك برمز اليوم.",
     'n.weekly_subject' => "ملخصك الأسبوعي في COOP",
     'n.weekly_intro' => "مرحبًا :name، هذا أسبوعك في COOP (:n تحديثات):",
+    'att.change' => "تغيير",
+    'att.change_title' => "تغيير الحضور · :name · :date",
+    'att.current_status' => "الحالة الحالية",
+    'att.change_to' => "تغيير إلى",
+    'att.change_help' => "مطلوبة عند الرفض، ويراها الطالب.",
+    'att.save_change' => "حفظ التغيير",
+    'att.changed' => "تم تغيير الحضور إلى :status وإبلاغ الطالب.",
+    'att.same_status' => "تسجيل الحضور هذا :status بالفعل.",
+    'n.att_changed' => "غيّر مشرفك حالة حضورك بتاريخ :date إلى :status.",
 ];

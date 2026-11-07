@@ -162,3 +162,12 @@ Settings is in the COOP design: white cards with mint switches and buttons.
 - **Appearance:** Language (English / العربية) and Theme (Light / Dark). Dark is the default.
 - **Security:** change password.
 - **Help:** FAQ, message the co-op office, and the privacy notice.
+
+## Supervisor: change an attendance decision
+
+A supervisor can change a check-in that was already approved or rejected:
+1. Press **Change** on the Attendance review page (Approved or Rejected tab) or in a student's attendance history.
+2. Pick **Approved** or **Rejected**. Rejecting needs a comment, which the student sees.
+3. The student is notified, and the audit log records the old and new status.
+
+Only the student's own supervisor can do this. `tests/e2e-attendance-change.js` checks it.

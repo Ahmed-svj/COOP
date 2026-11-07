@@ -97,6 +97,7 @@ $router->group('/supervisor', ['role:Supervisor'], function (Router $r) {
     $r->post('/attendance/{id}/approve', 'Supervisor\AttendanceController@approve');
     $r->post('/attendance/{id}/reject', 'Supervisor\AttendanceController@reject');
     $r->post('/attendance/approve-all', 'Supervisor\AttendanceController@approveAll');
+    $r->post('/attendance/{id}/status', 'Supervisor\AttendanceController@change');
     $r->get('/reports', 'Supervisor\ReportController@index');
     $r->post('/reports/{id}/review', 'Supervisor\ReportController@review');
     $r->get('/evaluate/{id}', 'Supervisor\EvaluationController@form');

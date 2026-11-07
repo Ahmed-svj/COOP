@@ -180,6 +180,9 @@ for LANG, role, path in LANG_ITEMS:
             return re.sub(r'<option value="(\d+)"', lambda o: f'<option value="{o.group(1)}" data-target="{resolve(role, base + "?opportunity=" + o.group(1)) or resolve(role, base)}"', sel)
         body = re.sub(r'<select[^>]*data-autosubmit-select.*?</select>', opt_targets, body, flags=re.S)
         body = body.replace(' id="main"', '')
+        # The same dialog appears on several pages: give modal ids (and their references) a per-page prefix.
+        for mid in set(re.findall(r'<div class="modal[^"]*" id="([^"]+)"', body)) | {'cv-remove'}:
+            body = re.sub(r'(?<=["#])' + re.escape(mid) + r'(?=[-"])', f'{page_id}--{mid}', body)
         dir_ = re.search(r'dir="(\w+)"', attrs).group(1)
         theme = re.search(r'data-theme="(\w+)"', attrs).group(1)
         sections.append(f'<section class="page {body_cls}" id="{page_id}" dir="{dir_}" data-theme="{theme}" data-role="{role}" data-title="{title.strip()}" hidden>{body}</section>')

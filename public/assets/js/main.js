@@ -70,3 +70,14 @@
   // Auto-hide success flashes after a while.
   setTimeout(() => document.querySelectorAll('.app-flash.co-alert--mint').forEach((el) => el.remove()), 8000);
 })();
+
+/* Attendance change dialog: a comment is required when the new status is Rejected. */
+(function () {
+  'use strict';
+  function sync(form) {
+    const rejected = form.querySelector('input[name=status][value=Rejected]')?.checked;
+    const ta = form.querySelector('textarea[name=comment]');
+    if (ta) ta.required = !!rejected;
+  }
+  document.querySelectorAll('form[data-att-change]').forEach((f) => { sync(f); f.addEventListener('change', () => sync(f)); });
+})();

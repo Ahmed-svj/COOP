@@ -37,6 +37,40 @@ class AttendanceController extends Base
         $this->back();
     }
 
+    /** Change a decision that was already made (Approved <-> Rejected). Rejecting needs a comment. */
+    public function change(int $id): void
+    {
+        $sp = $this->sup();
+        $status = $_POST['status'] ?? '';
+        $comment = mb_substr(trim((string) ($_POST['comment'] ?? '')), 0, 1000);
+        if (!in_array($status, ['Approved', 'Rejected'], true)) {
+            abort(400);
+        }
+        $rec = Database::one(
+            'SELECT ar.*, s.UserID, dc.CodeDate FROM attendance_records ar JOIN students s ON s.StudentID = ar.StudentID
+               JOIN daily_codes dc ON dc.DailyCodeID = ar.DailyCodeID WHERE ar.AttendanceID = ? AND s.SupervisorID = ?',
+            [$id, $sp['SupervisorID']]);
+        if (!$rec) {
+            abort(404);
+        }
+        if ($rec['ApprovalStatus'] === $status) {
+            flash('warning', __('att.same_status', ['status' => __('status.' . $status)]));
+            $this->back();
+        }
+        if ($status === 'Rejected' && $comment === '') {
+            flash('error', __('att.comment_required'));
+            $this->back();
+        }
+        Database::query(
+            'UPDATE attendance_records SET ApprovalStatus = ?, ReviewComment = ?, ReviewedBySupervisorID = ?, ReviewedAt = NOW() WHERE AttendanceID = ?',
+            [$status, $comment !== '' ? $comment : null, $sp['SupervisorID'], $id]);
+        \NotificationService::notify((int) $rec['UserID'],
+            __('n.att_changed', ['date' => fmt_date($rec['CodeDate']), 'status' => __('status.' . $status)]), '/student/attendance');
+        \AuditService::log('ATTENDANCE_CHANGED', 'Attendance', $id, $rec['ApprovalStatus'] . ' -> ' . $status . ($comment !== '' ? ': ' . $comment : ''));
+        flash('success', __('att.changed', ['status' => __('status.' . $status)]));
+        $this->back();
+    }
+
     public function approveAll(): void
     {
         $ids = Database::all(

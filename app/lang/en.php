@@ -392,4 +392,13 @@ return [
     'n.attendance_reminder' => "Good morning — remember to check in with today's code.",
     'n.weekly_subject' => "Your COOP weekly summary",
     'n.weekly_intro' => "Hello :name, here is your week in COOP (:n updates):",
+    'att.change' => "Change",
+    'att.change_title' => "Change attendance · :name · :date",
+    'att.current_status' => "Current status",
+    'att.change_to' => "Change to",
+    'att.change_help' => "Required when rejecting. The student sees this comment.",
+    'att.save_change' => "Save change",
+    'att.changed' => "Attendance changed to :status. The student was notified.",
+    'att.same_status' => "This check-in is already :status.",
+    'n.att_changed' => "Your supervisor changed your check-in on :date to :status.",
 ];

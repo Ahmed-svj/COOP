@@ -43,6 +43,14 @@
     if (/\/(companies|opportunities)\/\d+\/reject$/.test(a)) { setStatus(f, 'Rejected'); return flash(t('admin.decision_saved')); }
     if (/\/attendance\/\d+\/approve$/.test(a)) { setStatus(f, 'Approved'); return flash(t('att.approved')); }
     if (/\/attendance\/\d+\/reject$/.test(a)) { setStatus(f, 'Rejected'); return flash(t('att.rejected')); }
+    if (/\/attendance\/\d+\/status$/.test(a)) {
+      const st = (f.querySelector('input[name=status]:checked') || {}).value;
+      if (!st) return;
+      if (st === 'Rejected' && !val('comment').trim()) return flash(t('att.comment_required'), 'red');
+      const row = rowOf(f); const old = row && row.querySelector('.co-badge');
+      if (old) old.replaceWith(badge(st));
+      return flash(t('att.changed', { status: t('status.' + st) }));
+    }
     if (/\/attendance\/approve-all$/.test(a)) {
       let n = 0; cur().querySelectorAll('form[data-action*="/attendance/"][data-action$="/approve"]').forEach((x) => { setStatus(x, 'Approved'); n++; });
       return flash(t('att.approved_n', { n }));

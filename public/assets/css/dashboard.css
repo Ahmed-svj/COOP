@@ -427,3 +427,10 @@ a.co-iconbtn:hover { color: var(--ink); }
 .set-help { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
 @media (max-width: 991.98px) { .set-grid, .set-help { grid-template-columns: 1fr; } }
 @media (max-width: 575.98px) { .set-row { grid-template-columns: 1fr; } .set-me { flex-wrap: wrap; } }
+
+/* Radio chips (attendance status change) */
+.app-radio-chip { cursor: pointer; }
+.app-radio-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.app-radio-chip:has(input:checked) { background: var(--mint-soft); color: var(--mint-ink); font-weight: 600; }
+.app-radio-chip:has(input:focus-visible) { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.modal { text-align: start; white-space: normal; }

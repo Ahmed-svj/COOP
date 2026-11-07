@@ -12,7 +12,7 @@
       <td class="app-actions"><?php if ($r['ApprovalStatus'] === 'Pending'): ?>
         <button class="co-btn co-btn--danger-ghost co-btn--sm" type="button" data-bs-toggle="modal" data-bs-target="#rej-<?= (int) $r['AttendanceID'] ?>"><?= e(__('common.reject')) ?></button>
         <form method="post" action="<?= url('/supervisor/attendance/' . $r['AttendanceID'] . '/approve') ?>"><?= csrf_field() ?><button class="co-btn co-btn--primary co-btn--sm"><?= e(__('common.approve')) ?></button></form>
-      <?php endif; ?></td></tr>
+      <?php else: ?><?= View::partial('supervisor/_att-change', ['r' => $r, 'name' => $r['FullName']]) ?><?php endif; ?></td></tr>
   <?php endforeach; ?></tbody>
 </table></div>
 <?php foreach ($items as $r): if ($r['ApprovalStatus'] === 'Pending'): ?>
