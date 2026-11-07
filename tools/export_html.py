@@ -172,9 +172,6 @@ router = r'''
     const page = document.getElementById(id) || document.getElementById('home');
     pages.forEach((p) => { p.hidden = p !== page; });
     document.title = page.dataset.title;
-    const sfx = page.id.endsWith('-ar') ? '-ar' : '';
-    document.querySelectorAll('.preview-bar a').forEach((a) => { a.href = '#' + a.dataset.base + sfx; });
-    document.querySelectorAll('.preview-bar a').forEach((a) => a.toggleAttribute('aria-current', a.dataset.role === page.dataset.role));
     window.scrollTo(0, 0);
     window.dispatchEvent(new Event('resize'));
   }
@@ -242,7 +239,6 @@ router = r'''
 
 LANG = 'en'
 dashboards = {r: sid(r, f'/{r}/dashboard', 'en') for r in TITLES}
-bar = ''.join(f'<a href="#{dashboards[r]}" data-base="{dashboards[r]}" data-role="{r}">{t}</a>' for r, t in TITLES.items())
 doc = f'''<!doctype html>
 <html lang="en">
 <head>
@@ -255,20 +251,12 @@ doc = f'''<!doctype html>
 <style>{css}
 section.page[hidden] {{ display: none !important; }}
 .page.site-body {{ min-height: 100vh; }}
-.preview-bar {{ position: fixed; z-index: 5000; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; align-items: center;
-  background: #15171c; color: #fff; padding: 6px 8px; border-radius: 999px; box-shadow: 0 8px 30px rgba(0,0,0,.25); font: 600 12px/1 "Plus Jakarta Sans", system-ui, sans-serif; }}
-.preview-bar a {{ color: #fff; text-decoration: none; padding: 7px 12px; border-radius: 999px; }}
-.preview-bar a:hover {{ background: rgba(255,255,255,.12); }}
-.preview-bar a[aria-current] {{ background: #5ad6b4; color: #10241e; }}
-.preview-bar span {{ opacity: .6; padding: 0 6px; }}
 .preview-toast {{ position: fixed; z-index: 6000; top: 20px; left: 50%; transform: translateX(-50%); background: #15171c; color: #fff; padding: 10px 18px;
   border-radius: 999px; font: 600 13px/1.2 "Plus Jakarta Sans", system-ui, sans-serif; box-shadow: 0 8px 30px rgba(0,0,0,.25); }}
-@media (max-width: 767.98px) {{ .preview-bar {{ bottom: 84px; }} }}
-</style>
+@media (max-width: 767.98px) {{ </style>
 </head>
 <body style="margin:0">
 {''.join(sections)}
-<nav class="preview-bar" aria-label="Switch role"><span>View as</span><a href="#home" data-base="home" data-role="public">Visitor</a>{bar}</nav>
 <script>{js}</script>
 <script>const ASSETS = {json.dumps(ASSETS)};
 document.querySelectorAll('img[data-asset]').forEach((i) => {{ i.src = ASSETS[i.dataset.asset]; }});</script>

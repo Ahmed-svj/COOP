@@ -95,7 +95,7 @@ Every use case from UC-01 to UC-23, plus:
   - `favicon.png`: the browser-tab icon
 - **`coop-website.html`** is a single self-contained file holding **every page of the site for every role, in English and Arabic** (122 pages). It opens in any browser without PHP.
   - Every link leads to a real page, and CV and report links download the embedded PDFs.
-  - The bar at the bottom switches role. Log in, Log out and Register move between pages; other forms show a "preview only" message.
+  - To see a role, log in on the preview's login page with that role's demo email. Log in, Log out and Register move between pages; other forms show a "preview only" message.
 - **Rebuild it after changes** while the PHP server is running with demo data:
   ```bash
   python3 tools/export_html.py
