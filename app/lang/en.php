@@ -1,0 +1,241 @@
+<?php
+return [
+    // App, a11y, nav
+    'app.tagline' => 'Cooperative Training', 'footer.college' => 'Jubail Industrial College',
+    'a11y.skip' => 'Skip to content', 'a11y.main_nav' => 'Main', 'a11y.close' => 'Close', 'a11y.pagination' => 'Pages',
+    'nav.home' => 'Home', 'nav.about' => 'About', 'nav.contact' => 'Contact', 'nav.dashboard' => 'Dashboard',
+    'nav.opportunities' => 'Opportunities', 'nav.applications' => 'My applications', 'nav.attendance' => 'Attendance',
+    'nav.report' => 'Final report', 'nav.evaluations' => 'Evaluations', 'nav.messages' => 'Messages', 'nav.notifications' => 'Notifications',
+    'nav.settings' => 'Settings', 'nav.logout' => 'Log out', 'nav.profile' => 'My profile', 'nav.applicants' => 'Applicants',
+    'nav.daily_code' => 'Daily code', 'nav.trainees' => 'Trainees', 'nav.company_profile' => 'Company profile', 'nav.students' => 'My students',
+    'nav.reports' => 'Reports', 'nav.export' => 'Export', 'nav.users' => 'Users', 'nav.companies' => 'Companies',
+    'nav.assign' => 'Assign supervisors', 'nav.analytics' => 'Analytics', 'nav.audit' => 'Audit log', 'nav.contact_inbox' => 'Contact inbox',
+    'role.Student' => 'Student', 'role.Company' => 'Company', 'role.Supervisor' => 'Academic supervisor', 'role.Admin' => 'Admin',
+    'search.label' => 'Search', 'search.Student' => 'Search opportunities, companies, cities…', 'search.Company' => 'Search applicants…',
+    'search.Supervisor' => 'Search my students…', 'search.Admin' => 'Search users by name or email…',
+    'greet.morning' => 'Good morning,', 'greet.afternoon' => 'Good afternoon,', 'greet.evening' => 'Good evening,',
+    'day.Sun' => 'Sun', 'day.Mon' => 'Mon', 'day.Tue' => 'Tue', 'day.Wed' => 'Wed', 'day.Thu' => 'Thu', 'day.Fri' => 'Fri', 'day.Sat' => 'Sat',
+
+    // Statuses (DB values)
+    'status.Pending' => 'Pending', 'status.Pending Approval' => 'Pending Approval', 'status.Approved' => 'Approved', 'status.Rejected' => 'Rejected',
+    'status.Withdrawn' => 'Withdrawn', 'status.Accepted' => 'Accepted', 'status.Active' => 'Active', 'status.Completed' => 'Completed',
+    'status.Closed' => 'Closed', 'status.Submitted' => 'Submitted', 'status.Resubmitted' => 'Resubmitted', 'status.Revision Requested' => 'Revision Requested',
+    'status.Suspended' => 'Suspended', 'status.Expired' => 'Expired',
+
+    // Common
+    'common.accept' => 'Accept', 'common.reject' => 'Reject', 'common.approve' => 'Approve', 'common.cancel' => 'Cancel', 'common.save' => 'Save changes',
+    'common.back' => 'Back', 'common.choose' => 'Choose…', 'common.city' => 'City', 'common.date' => 'Date', 'common.days' => 'days', 'common.done' => 'Done',
+    'common.missing' => 'Missing', 'common.download' => 'Download', 'common.edit' => 'Edit', 'common.filter' => 'Filter', 'common.status' => 'Status',
+    'common.view' => 'View', 'common.all' => 'All', 'common.reason' => 'Reason', 'common.reason_help' => 'The person will see this reason.',
+
+    // Validation
+    'v.required' => 'This field is required.', 'v.email' => 'Enter a valid email address.', 'v.student_email' => 'Use your college email (@:domain).',
+    'v.min' => 'Use at least :n characters.', 'v.max' => 'Use at most :n characters.', 'v.phone' => 'Use 10 digits starting with 05.',
+    'v.password' => 'At least 8 characters with letters and numbers.', 'v.confirmed' => 'Passwords do not match.', 'v.integer' => 'Enter a whole number.',
+    'v.numeric' => 'Enter a number.', 'v.between' => 'Enter a value from :a to :b.', 'v.in' => 'Choose one of the options.', 'v.date' => 'Enter a valid date.',
+    'v.after' => 'The end must be after the start.', 'v.digits' => 'Enter exactly :n digits.', 'v.unique' => 'This is already registered.',
+    'v.summary' => 'Some fields need attention. Check the messages below each field.',
+    'csrf.expired' => 'Your form expired. Please try again.',
+
+    // Uploads
+    'upload.none' => 'Choose a file to upload.', 'upload.too_big' => 'The file is larger than :mb MB.', 'upload.failed' => 'The upload failed. Try again.',
+    'upload.type' => 'Only :types files are accepted.', 'upload.help' => 'PDF or DOCX, up to 10 MB.',
+
+    // Auth
+    'auth.login' => 'Log in', 'auth.register' => 'Register', 'auth.login_title' => 'Log in to COOP', 'auth.email' => 'Email', 'auth.password' => 'Password',
+    'auth.forgot' => 'Forgot password?', 'auth.no_account' => 'New here? Register', 'auth.as_student' => 'as a student', 'auth.as_company' => 'as a company',
+    'auth.failed' => 'Email or password is incorrect.', 'auth.locked' => 'Too many failed attempts. Try again in :minutes minutes.',
+    'auth.suspended' => 'This account is suspended. Contact the co-op office.', 'auth.logged_out' => 'You are logged out.',
+    'auth.login_first' => 'Log in to continue.', 'auth.session_expired' => 'You were logged out after 30 minutes without activity.',
+    'auth.register_student' => 'Create a student account', 'auth.register_company' => 'Register your company', 'auth.full_name' => 'Full name',
+    'auth.inst_email' => 'College email', 'auth.inst_email_help' => 'Use your @:domain address.', 'auth.inst_id' => 'Student ID', 'auth.major' => 'Major',
+    'auth.phone' => 'Mobile number', 'auth.password_confirm' => 'Confirm password', 'auth.privacy_accept' => 'I agree to the processing of my data as described in the',
+    'auth.privacy_link' => 'privacy notice', 'auth.create_account' => 'Create account', 'auth.have_account' => 'Already registered?',
+    'auth.company_name' => 'Company name', 'auth.contact_person' => 'Contact person', 'auth.work_email' => 'Work email',
+    'auth.company_review_note' => 'The co-op office reviews new companies before they can post opportunities.',
+    'auth.welcome_student' => 'Welcome. Complete your profile and upload your CV to start applying.',
+    'auth.welcome_company' => 'Thanks for registering. We will review your company and let you know.',
+    'auth.back_login' => 'Back to log in', 'auth.side_title' => 'Attendance approved', 'auth.side_sub' => 'Your supervisor reviewed today',
+
+    // Password reset
+    'reset.lead' => 'Enter your email. If it has an account, we will send a link that works for 30 minutes.', 'reset.send' => 'Send reset link',
+    'reset.sent' => 'If that email has an account, a reset link is on its way.', 'reset.subject' => 'Reset your COOP password',
+    'reset.body' => "Use this link to set a new password. It works once and expires in 30 minutes:\n:link\n\nIf you did not ask for this, ignore this email.",
+    'reset.invalid' => 'This reset link is invalid or has expired. Ask for a new one.', 'reset.title' => 'Set a new password', 'reset.new' => 'New password',
+    'reset.save' => 'Save password', 'reset.done' => 'Password changed. You can log in now.',
+
+    // Home / about / contact
+    'home.badge' => 'Jubail Industrial College · Co-op', 'home.title' => 'Your co-op training, in one calm place',
+    'home.lead' => 'Find a training opportunity, check in every day with a 6-digit code, submit your final report and see your evaluations — while companies and supervisors follow along.',
+    'home.cta_student' => 'I am a student', 'home.cta_company' => 'I represent a company', 'home.stat_companies' => 'Partner companies',
+    'home.stat_opps' => 'Open opportunities', 'home.stat_placed' => 'Students placed', 'home.how' => 'How it works',
+    'home.step1_t' => 'Companies join', 'home.step1' => 'Companies register and the co-op office approves them. Approved companies post opportunities.',
+    'home.step2_t' => 'Students apply', 'home.step2' => 'Students complete their profile, upload a CV and apply. Companies accept or reject.',
+    'home.step3_t' => 'Daily check-in', 'home.step3' => 'Each day the company shows a 6-digit code. Students check in and supervisors approve.',
+    'home.step4_t' => 'Report and evaluation', 'home.step4' => 'Students upload a final report. The company and the academic supervisor each give a score.',
+    'home.latest' => 'Latest opportunities', 'home.sign_in_to_apply' => 'Log in to apply', 'home.demo_role' => 'Backend Developer Intern',
+    'about.title' => 'About COOP', 'about.p1' => 'COOP is the cooperative training management system of Jubail Industrial College. It replaces paper forms and email threads with one place for students, companies, academic supervisors and the co-op office.',
+    'about.Student' => 'Builds a profile, applies to opportunities, checks in daily, uploads the final report and sees evaluations.',
+    'about.Company' => 'Posts opportunities, reviews applicants and CVs, generates the daily code and evaluates trainees.',
+    'about.Supervisor' => 'Follows assigned students, approves attendance, reviews final reports and gives the academic evaluation.',
+    'about.Admin' => 'Approves companies and opportunities, assigns supervisors, manages users and reads analytics and the audit log.',
+    'about.privacy_t' => 'Privacy notice', 'about.privacy' => 'COOP stores the personal data needed to run co-op training (name, contact details, student ID, major, GPA, CV, attendance, reports and evaluations) in line with the Saudi Personal Data Protection Law. Only people involved in your placement can see your data. Files are stored outside the public website and every sensitive action is logged.',
+    'contact.title' => 'Contact the co-op office', 'contact.lead' => 'Questions about COOP or a placement? Send us a message and we will reply by email.',
+    'contact.name' => 'Your name', 'contact.topic' => 'Topic', 'contact.body' => 'Message', 'contact.send' => 'Send message', 'contact.sent' => 'Thanks. Your message was sent.',
+
+    // Dashboards
+    'dash.att_week' => 'Attendance this week', 'dash.sun_thu' => 'Sun–Thu · check-ins', 'dash.pending_review' => 'pending review',
+    'dash.progress' => 'Training progress', 'dash.checkin' => 'Check in for today', 'dash.checked_today' => 'You checked in today',
+    'dash.checked_today_d' => 'Your supervisor will review it.', 'dash.my_placement' => 'My placement', 'dash.my_applications' => 'My applications',
+    'dash.no_apps' => 'You have not applied yet', 'dash.browse' => 'Browse opportunities', 'dash.for_major' => 'For your major',
+    'dash.no_supervisor' => 'Supervisor not assigned yet', 'dash.no_supervisor_d' => 'The co-op office will assign one soon.',
+    'dash.time_elapsed' => 'Training time elapsed', 'dash.time_elapsed_due' => 'Of training time elapsed · ends :date',
+    'dash.complete_profile' => 'Complete your profile', 'dash.complete_profile_d' => 'Add your phone, GPA and CV before you apply.',
+    'dash.today_code' => "Today's code",
+
+    // Profile
+    'profile.title' => 'My profile', 'profile.sub' => 'Companies see this when you apply.', 'profile.gpa' => 'GPA', 'profile.gpa_help' => 'Out of 5.00.',
+    'profile.cv' => 'CV', 'profile.cv_current' => 'Download current CV', 'profile.saved' => 'Profile saved.', 'profile.checklist' => 'Ready to apply?',
+    'profile.checklist_d' => 'All four are needed before you can apply.',
+
+    // Opportunities
+    'opp.browse' => 'Find an opportunity', 'opp.browse_sub' => 'Approved opportunities from approved companies.', 'opp.all_cities' => 'All cities',
+    'opp.all_majors' => 'All majors', 'opp.count' => ':n opportunities', 'opp.none' => 'No opportunities match', 'opp.none_hint' => 'Try another city or major.',
+    'opp.seats' => 'Seats left: :n', 'opp.full' => 'Full', 'opp.posted' => 'Posted :date', 'opp.seats_title' => 'Seats',
+    'opp.applied_on' => 'You applied on :date', 'opp.new' => 'New opportunity', 'opp.edit' => 'Edit opportunity', 'opp.title' => 'Title',
+    'opp.major' => 'Major required', 'opp.capacity' => 'Seats', 'opp.description' => 'Description',
+    'opp.description_help' => 'What will the trainee do? Hours, tools, requirements.', 'opp.form_sub' => 'The co-op office approves each post before students see it.',
+    'opp.submit' => 'Submit for approval', 'opp.submitted' => 'Opportunity sent for approval.', 'opp.resubmitted' => 'Changes saved and sent for approval again.',
+    'opp.edit_reapproval' => 'Saving changes sends this post back for approval. It is hidden from students until approved.',
+    'opp.company_sub' => 'Your posts and their approval status.', 'opp.none_company' => 'No opportunities yet', 'opp.close' => 'Close',
+    'opp.close_confirm' => 'Close this opportunity? Pending applicants will be told it closed.', 'opp.closed' => 'Opportunity closed.',
+    'opp.closed_no_edit' => 'Closed opportunities cannot be edited.', 'opp.capacity_below' => 'You already accepted :n students. Seats cannot be lower.',
+
+    // Apply / applications
+    'apply.button' => 'Apply now', 'apply.confirm' => 'Send your application with your current profile and CV?',
+    'apply.note' => 'The company sees your profile and CV. Accepting another offer withdraws this application.',
+    'apply.incomplete' => 'Complete your profile and CV first.', 'apply.placed' => 'You already have a placement.',
+    'apply.duplicate' => 'You already applied to this opportunity.', 'apply.done' => 'Application sent.',
+    'app.sub' => 'Track every application you sent.', 'app.submitted' => 'sent :date', 'app.withdraw' => 'Withdraw',
+    'app.withdraw_confirm' => 'Withdraw this application?', 'app.withdrawn' => 'Application withdrawn.',
+    'app.accepted' => 'Applicant accepted and placement created.', 'app.rejected' => 'Applicant rejected.', 'app.reason_required' => 'Write a reason.',
+    'app.accept_confirm' => 'Accept :name for this opportunity?', 'app.accept_title' => 'Accept :name', 'app.reject_title' => 'Reject :name',
+    'app.first_accept' => 'This is the first trainee for this opportunity. Set the training period; later trainees join the same period.',
+    'app.start' => 'Start date', 'app.end' => 'End date', 'app.period' => 'Period',
+
+    // Attendance
+    'att.sub' => 'Check in daily with the code from your company.', 'att.code_label' => "Today's 6-digit code", 'att.digit' => 'Digit :n',
+    'att.code_help' => "Ask your company for today's code. It expires at 23:59.", 'att.checkin' => 'Check in',
+    'att.no_placement' => 'You can check in once a company accepts you.', 'att.placement_inactive' => 'Your placement is not active.',
+    'att.locked' => 'Check-in paused until :time after 5 wrong codes.', 'att.six_digits' => 'Enter all 6 digits.',
+    'att.wrong' => 'Wrong code. :n tries left before a 10-minute pause.', 'att.already' => 'You already checked in today.',
+    'att.ok' => 'Checked in at :time. Your supervisor will review it.', 'att.history' => 'History', 'att.time' => 'Time', 'att.comment' => 'Comment',
+    'att.none_yet' => 'No check-ins yet', 'att.none' => 'No record', 'att.comment_required' => 'Write a comment to reject.',
+    'att.approved' => 'Attendance approved.', 'att.rejected' => 'Attendance rejected.', 'att.approve_all' => 'Approve all',
+    'att.approve_all_confirm' => 'Approve every pending check-in?', 'att.approved_n' => ':n check-ins approved.', 'att.reject_title' => 'Reject :name · :date',
+
+    // Daily code
+    'code.sub' => 'One code per placement per day. Show it to your trainees.', 'code.generate' => 'Generate code', 'code.generated' => "Today's code is ready.",
+    'code.expires' => 'Expires today 23:59', 'code.checked' => ':n of :t checked in', 'code.no_placements' => 'No active placements yet. Accept an applicant first.',
+    'code.none_today' => 'No code yet today.', 'code.checked_at' => 'Checked in at :time', 'code.not_yet' => 'Not checked in yet',
+
+    // Report
+    'report.title' => 'Final report', 'report.sub' => 'Upload your report for your academic supervisor.', 'report.status' => 'Status',
+    'report.file' => 'Final report', 'report.submitted_on' => 'Submitted :date', 'report.none' => 'You have not uploaded a report yet.',
+    'report.upload' => 'Upload report', 'report.reupload' => 'Upload a revised report', 'report.submit' => 'Submit report',
+    'report.uploaded' => 'Report uploaded. Your supervisor has been notified.', 'report.not_ready' => 'You can upload once you have a placement and a supervisor.',
+    'report.locked' => 'Your report is under review. You can upload again only if a revision is requested.',
+    'report.supervisor_comments' => 'Supervisor comments', 'report.rules' => 'Before you upload', 'report.rule1' => 'PDF or DOCX, up to 10 MB.',
+    'report.rule2' => 'One report per student. Re-upload only when a revision is requested.', 'report.rule3' => 'Your academic evaluation comes after the report is approved.',
+    'report.not_submitted' => 'Not submitted', 'report.request_revision' => 'Request revision', 'report.what_to_change' => 'What should the student change?',
+    'report.send_back' => 'Send back', 'report.comment_required' => 'Write what needs to change.', 'report.reviewed' => 'Review saved.',
+
+    // Evaluations
+    'eval.sub' => 'Scores from your company and your academic supervisor (0–100).', 'eval.Company' => 'Company evaluation', 'eval.Academic' => 'Academic evaluation',
+    'eval.score' => 'Score', 'eval.waiting' => 'Not evaluated yet', 'eval.waiting_Company' => 'Your company evaluates you during or after training.',
+    'eval.waiting_Academic' => 'Comes after your placement is completed and your report is approved.', 'eval.approved_days' => 'Approved days',
+    'eval.average' => 'Average score', 'eval.evaluate' => 'Evaluate', 'eval.company_title' => 'Evaluate :name', 'eval.academic_title' => 'Academic evaluation · :name',
+    'eval.academic_sub' => 'Score the training as a whole, 0–100.', 'eval.score_label' => 'Score (0–100)', 'eval.score_help' => 'Whole numbers only.',
+    'eval.comments' => 'Comments for the student', 'eval.final' => 'An evaluation is final once submitted.', 'eval.submit' => 'Submit evaluation',
+    'eval.saved' => 'Evaluation saved.', 'eval.duplicate' => 'This student already has this evaluation.', 'eval.not_yet' => 'Not ready for evaluation',
+    'eval.no_placement' => 'The student has no placement.', 'eval.not_completed' => 'The placement must be completed first.',
+    'eval.report_first' => 'The final report must be approved first.',
+
+    // Company
+    'company.not_approved' => 'Your company is waiting for approval by the co-op office.', 'company.status_Pending' => 'Waiting for approval',
+    'company.status_Rejected' => 'Registration rejected', 'company.pending_d' => 'You can post opportunities once the co-op office approves your company.',
+    'company.k_open' => 'Open opportunities', 'company.k_pending' => 'Applicants to review', 'company.k_trainees' => 'Active trainees', 'company.k_week' => 'Applications this week',
+    'company.new_applicants' => 'New applicants', 'company.no_applicants' => 'No applicants here', 'company.applicants_sub' => 'Review profiles and CVs, then accept or reject.',
+    'company.all_opps' => 'All opportunities', 'company.n_pending' => ':n pending', 'company.trainees_sub' => 'Your trainees and their evaluations.',
+    'company.no_trainees' => 'No trainees yet', 'company.profile_sub' => 'Students see your company name and city.', 'company.approval' => 'Approval',
+    'company.registered' => 'Registered :date',
+
+    // Supervisor
+    'sup.k_students' => 'My students', 'sup.k_attendance' => 'Attendance', 'sup.k_reports' => 'Reports', 'sup.k_completed' => 'Completed',
+    'sup.ready_eval' => 'placements finished', 'sup.load' => 'Student load', 'sup.to_review' => 'Check-ins to review', 'sup.all_reviewed' => 'All caught up',
+    'sup.cohort' => 'Approved and pending days per student', 'sup.cohort_d' => 'Mint: approved days. Lavender: only pending so far.',
+    'sup.no_students' => 'No students assigned yet', 'sup.students_sub' => 'Students the co-op office assigned to you.',
+    'sup.att_title' => 'Attendance review', 'sup.att_sub' => 'Approve check-ins. Rejecting needs a comment.', 'sup.reports_sub' => 'Final reports from your students.',
+    'sup.no_reports' => 'No reports yet', 'sup.export_title' => 'Cohort report', 'sup.export_sub' => 'Download as CSV or print.',
+    'sup.download_csv' => 'Download CSV', 'sup.print' => 'Print',
+
+    // Admin
+    'admin.k_companies' => 'Companies to approve', 'admin.k_opps' => 'Opportunities to approve', 'admin.k_active' => 'Active placements',
+    'admin.k_unassigned' => 'Need a supervisor', 'admin.placement_rate' => 'Placement rate', 'admin.sup_load' => 'Supervisor load',
+    'admin.companies_waiting' => 'Companies waiting', 'admin.opps_waiting' => 'Opportunities waiting', 'admin.nothing_waiting' => 'Nothing waiting',
+    'admin.nothing_here' => 'Nothing here', 'admin.users_sub' => 'Activate or suspend accounts. Create supervisor accounts.',
+    'admin.new_supervisor' => 'New supervisor', 'admin.role' => 'Role', 'admin.last_login' => 'Last login', 'admin.suspend' => 'Suspend',
+    'admin.activate' => 'Activate', 'admin.you' => 'You', 'admin.suspend_confirm' => 'Suspend :name? They are logged out right away.',
+    'admin.activate_confirm' => 'Activate :name?', 'admin.no_self_suspend' => 'You cannot suspend your own account.',
+    'admin.suspended' => ':name suspended.', 'admin.activated' => ':name activated.', 'admin.department' => 'Department', 'admin.max_load' => 'Max students',
+    'admin.temp_password' => 'Temporary password', 'admin.create' => 'Create account', 'admin.supervisor_created' => 'Supervisor account created.',
+    'admin.companies_sub' => 'Approve companies before they can post.', 'admin.registered' => 'Registered', 'admin.n_opps' => ':n opportunities',
+    'admin.reject_company' => 'Reject :name', 'admin.decision_saved' => 'Decision saved and the company notified.',
+    'admin.opps_sub' => 'Approve posts before students can see them.', 'admin.n_apps' => ':n applications', 'admin.reject_opp' => 'Reject “:title”',
+    'admin.assign_title' => 'Assign supervisors', 'admin.assign_sub' => 'Every placed student needs an academic supervisor.',
+    'admin.no_placed' => 'No placed students yet', 'admin.current_sup' => 'Supervisor: :name', 'admin.unassigned' => 'No supervisor',
+    'admin.choose_sup' => 'Choose supervisor', 'admin.full' => 'full', 'admin.assign' => 'Assign', 'admin.near_full' => 'nearly full',
+    'admin.complete' => 'Mark completed', 'admin.complete_confirm' => 'Mark this placement completed? This happens automatically after the end date.',
+    'admin.complete_hint' => 'Ends :date', 'admin.analytics_sub' => 'Placements, applications, attendance and scores.',
+    'admin.students_total' => 'Students', 'admin.placed' => 'Placed', 'admin.avg_Company' => 'Avg. company score', 'admin.avg_Academic' => 'Avg. academic score',
+    'admin.n_evals' => ':n evaluations', 'admin.att_14' => 'Check-ins, last 14 days', 'admin.apps_status' => 'Applications by status',
+    'admin.by_city' => 'Placed students by city', 'admin.by_major' => 'Open opportunities by major', 'admin.audit_sub' => 'Every login and decision. Read-only.',
+    'admin.filter_action' => 'Filter by action', 'admin.time' => 'Time', 'admin.user' => 'User', 'admin.action' => 'Action', 'admin.entity' => 'Record',
+    'admin.details' => 'Details', 'admin.contact_sub' => 'Messages from the public contact form.', 'admin.no_contact' => 'No messages yet',
+    'assign.full' => ':name is at full load. Pick another supervisor.', 'assign.done' => 'Supervisor assigned.', 'assign.completed' => 'Placement marked completed.',
+
+    // Notifications & messages
+    'notif.sub' => 'Updates about your applications, attendance and reviews.', 'notif.none' => 'No notifications', 'notif.read_all' => 'Mark all as read',
+    'notif.new' => 'New', 'notif.unread' => 'unread',
+    'msg.sub' => 'Talk with your supervisor, company or the co-op office.', 'msg.new' => 'Start a conversation with…', 'msg.start' => 'Start',
+    'msg.none' => 'No conversations yet.', 'msg.empty' => 'No messages yet', 'msg.pick' => 'Choose a conversation', 'msg.write' => 'Write a message…', 'msg.send' => 'Send',
+
+    // Settings
+    'settings.sub' => 'Language, notifications, password and photo.', 'settings.prefs' => 'Preferences', 'settings.email' => 'Email me updates',
+    'settings.email_d' => 'Status changes and reviews', 'settings.arabic_d' => 'Arabic interface', 'settings.dark' => 'Dark mode', 'settings.dark_d' => 'Easier at night',
+    'settings.saved' => 'Settings saved.', 'settings.change_password' => 'Change password', 'settings.current_password' => 'Current password',
+    'settings.wrong_password' => 'Current password is incorrect.', 'settings.password_changed' => 'Password changed.', 'settings.avatar' => 'Profile photo',
+    'settings.avatar_help' => 'JPG, PNG or WebP, up to 2 MB.', 'settings.upload' => 'Upload photo', 'settings.avatar_saved' => 'Photo updated.',
+
+    // Notifications text
+    'n.app_accepted' => 'Your application for “:title” was accepted.', 'n.app_rejected' => 'Your application for “:title” was not accepted.',
+    'n.needs_supervisor' => 'A student was placed and needs an academic supervisor.', 'n.placement_completed' => 'Your training placement is completed.',
+    'n.checkin_pending' => ':name checked in and is waiting for review.', 'n.new_applicant' => ':name applied to “:title”.',
+    'n.report_submitted' => ':name submitted a final report.', 'n.evaluated_company' => 'Your company evaluation is ready.',
+    'n.evaluated_academic' => 'Your academic evaluation is ready.', 'n.message' => 'New message from :name.',
+    'n.opportunity_pending' => 'New opportunity to review: “:title”.', 'n.opp_closed' => 'An opportunity you applied to was closed.',
+    'n.att_approved' => 'Your check-in on :date was approved.', 'n.att_rejected' => 'Your check-in on :date was rejected.',
+    'n.report_approved' => 'Your final report was approved.', 'n.report_revision' => 'Your supervisor requested changes to your final report.',
+    'n.company_approved' => 'Your company was approved. You can post opportunities now.', 'n.company_rejected' => 'Your company registration was rejected: :reason',
+    'n.opp_approved' => '“:title” was approved and is visible to students.', 'n.opp_rejected' => '“:title” was rejected: :reason',
+    'n.supervisor_assigned' => ':name is now your academic supervisor.', 'n.student_assigned' => ':name was assigned to you.',
+    'n.company_registered' => 'New company to review: :name.', 'n.contact' => 'New contact message from :name.',
+
+    // Errors
+    'err.not_found' => 'Not found.', 'err.capacity_full' => 'All seats for this opportunity are taken.', 'err.student_placed' => 'This student already has a placement.',
+    'err.not_pending' => 'This was already decided.', 'err.dates_required' => 'Set a start and end date (end after start).',
+    'err.t403' => 'You do not have access to this page', 'err.d403' => 'This page belongs to another role or another person.',
+    'err.t404' => 'Page not found', 'err.d404' => 'The page may have moved, or the link is wrong.', 'err.t500' => 'Something went wrong',
+    'err.d500' => 'The error was logged. Try again in a moment.', 'err.home' => 'Go to my dashboard',
+    'settings.change_photo' => 'Change photo', 'a11y.account_menu' => 'Account menu', 'settings.photo_uploading' => 'Uploading photo…',
+];
