@@ -60,7 +60,7 @@ $searchAction = match ($role) {
            aria-label="<?= e(__('nav.notifications')) ?><?= $unread ? ', ' . $unread . ' ' . e(__('notif.unread')) : '' ?>"><?= icon('bell') ?></a>
         <form id="avatar-form" class="app-avatar-form" method="post" action="<?= url('/settings/avatar') ?>" enctype="multipart/form-data">
           <?= csrf_field() ?>
-          <input type="file" id="avatar-input" name="avatar" accept="image/jpeg,image/png,image/webp" class="visually-hidden" tabindex="-1" data-max="2097152">
+          <input type="file" id="avatar-input" name="avatar" accept="image/jpeg,image/png,image/webp" class="visually-hidden" tabindex="-1" data-max="5242880">
         </form>
         <div class="dropdown co-userchip app-userchip">
           <button type="button" class="app-avatar-btn" data-avatar-pick title="<?= e(__('settings.change_photo')) ?>" aria-label="<?= e(__('settings.change_photo')) ?>">

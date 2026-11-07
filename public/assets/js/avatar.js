@@ -23,7 +23,7 @@
     const file = input.files[0];
     if (!file) return;
     if (!/^image\/(jpeg|png|webp)$/.test(file.type)) { coop.toast(ar ? 'استخدم صورة JPG أو PNG أو WebP.' : 'Use a JPG, PNG or WebP image.', 'red'); return; }
-    if (file.size > 2 * 1024 * 1024) { coop.toast(ar ? 'الصورة أكبر من 2 ميغابايت.' : 'The photo is larger than 2 MB.', 'red'); return; }
+    if (file.size > 5 * 1024 * 1024) { coop.toast(ar ? 'الصورة أكبر من 5 ميغابايت.' : 'The photo is larger than 5 MB.', 'red'); return; }
     const preview = URL.createObjectURL(file);
     const before = [...document.querySelectorAll('[data-me]')].map((el) => el.outerHTML);
     apply(preview);

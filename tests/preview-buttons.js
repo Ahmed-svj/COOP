@@ -61,8 +61,15 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); 
   await s.locator('form[data-action$="/read-all"] button').click(); await pg.waitForTimeout(250);
   ok(await s.locator('.app-unread').count() === 0, 'student: Mark all as read works');
   s = await go('student-settings');
-  await s.locator('form[data-action$="/settings"] button[type=submit]').click(); await pg.waitForTimeout(250);
-  ok((await flash()).includes('Settings saved'), 'student: Save settings works');
+  await s.locator('form[data-action$="/settings/profile"] .set-actions button').click(); await pg.waitForTimeout(250);
+  ok((await flash()).includes('Profile saved'), 'settings: Save Profile works');
+  await s.locator('input[name=weekly_summary]').click(); await pg.waitForTimeout(200);
+  ok((await flash()).includes('Settings saved'), 'settings: notification switch saves');
+  await s.locator('.set-theme-form button[value=light]').click(); await pg.waitForTimeout(200);
+  ok((await s.getAttribute('data-theme')) === 'light', 'settings: Theme Light works');
+  await s.locator('.set-theme-form button[value=dark]').click(); await pg.waitForTimeout(200);
+  await s.locator('main .co-chips a[lang=ar]').click(); await pg.waitForTimeout(250);
+  ok((await pg.evaluate(() => location.hash)) === '#student-settings-ar', 'settings: Language العربية opens the Arabic page');
 
   s = await go('faq'); ok(await s.locator('details').count() >= 10, 'public: FAQ page is in the preview');
   s = await go('contact');

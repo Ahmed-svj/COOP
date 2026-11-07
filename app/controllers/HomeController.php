@@ -70,7 +70,8 @@ class HomeController extends Controller
     /** Flip dark/light. Saved to the account when signed in, else to this visit. */
     public function theme(): void
     {
-        $next = current_theme() === 'dark' ? 'light' : 'dark';
+        $want = $_POST['theme'] ?? '';
+        $next = in_array($want, ['light', 'dark'], true) ? $want : (current_theme() === 'dark' ? 'light' : 'dark');
         if ($id = Auth::id()) {
             \UserPreference::set($id, 'dark_mode', $next === 'dark');
         } else {

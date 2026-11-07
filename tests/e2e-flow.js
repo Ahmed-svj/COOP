@@ -72,6 +72,11 @@ const submit = async (pg, selector) => Promise.all([pg.waitForNavigation(), pg.c
   const ids = sql("SELECT ApplicationID FROM applications a JOIN coop_opportunities o USING(OpportunityID) WHERE o.Title='Backend Developer Intern' AND a.Status='Pending'").split('\n');
   await Promise.all(ids.map((id) => sabic.context().request.post(B + `/company/applications/${id}/accept`, { form: { _csrf: token }, maxRedirects: 0 })));
   ok(sql("SELECT COUNT(*) FROM applications a JOIN coop_opportunities o USING(OpportunityID) WHERE o.Title='Backend Developer Intern' AND a.Status='Accepted'") === '2', `two simultaneous accepts never exceed capacity (accepted = 2 of 2)`);
+  const errBefore = require('fs').existsSync('storage/logs/error.log') ? require('fs').readFileSync('storage/logs/error.log', 'utf8').length : 0;
+  const pend = sql("SELECT ApplicationID FROM applications a JOIN coop_opportunities o USING(OpportunityID) WHERE o.Title='Backend Developer Intern' AND a.Status='Pending' LIMIT 1");
+  const full = await sabic.context().request.post(B + `/company/applications/${pend}/accept`, { form: { _csrf: token }, maxRedirects: 0 });
+  const errAfter = require('fs').existsSync('storage/logs/error.log') ? require('fs').readFileSync('storage/logs/error.log', 'utf8').length : 0;
+  ok(full.status() === 302 && errAfter === errBefore, 'accepting when seats are full shows a message, not a server error');
 
   // 6. Ma'aden accepts the new student (first trainee -> sets dates, creates placement)
   const maaden = await session(browser, 'maaden@ecoop.test', 'Coop2026!');

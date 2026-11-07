@@ -406,3 +406,24 @@ a.co-iconbtn:hover { color: var(--ink); }
 .app-kv dd { margin: 0; font-weight: 600; text-align: end; font-variant-numeric: tabular-nums; }
 .app-todo a { text-decoration: none; }
 @media print { .app-report-grid { grid-template-columns: 1fr 1fr; } .co-card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; } }
+
+/* ---------- Settings page (COOP design) ---------- */
+.set-me { display: flex; flex-direction: row; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4); }
+.set-me__who { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.set-me__who .co-caption { overflow-wrap: anywhere; }
+.set-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4); align-items: start; }
+.set-col { display: grid; gap: var(--space-4); align-content: start; }
+.set-h { margin: 0; }
+.set-card { gap: var(--space-4); }
+.set-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.set-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+.set-actions { display: flex; justify-content: flex-end; }
+.set-file { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: 10px var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-sunken); }
+.set-file__name { display: inline-flex; gap: var(--space-2); align-items: center; color: var(--ink); font-size: 14px; text-decoration: none; min-width: 0; overflow-wrap: anywhere; }
+.set-file__remove { border: 0; background: transparent; color: var(--red-ink); font: inherit; font-weight: 600; font-size: 13px; cursor: pointer; padding: 4px 10px; border-radius: var(--radius-pill); }
+.set-file__remove:hover { background: var(--red-soft); }
+.set-upload { justify-self: start; display: inline-flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer; height: 32px; padding: 0 var(--space-4); border-radius: var(--radius-pill); background: var(--surface-sunken); }
+.set-seg-group { display: grid; gap: var(--space-2); }
+.set-help { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+@media (max-width: 991.98px) { .set-grid, .set-help { grid-template-columns: 1fr; } }
+@media (max-width: 575.98px) { .set-row { grid-template-columns: 1fr; } .set-me { flex-wrap: wrap; } }

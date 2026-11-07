@@ -99,6 +99,13 @@
       cur().querySelectorAll('.app-unread, .co-badge--lavender').forEach((b) => b.closest('.app-row-link') && b.remove());
       return flash(t('notif.read_all'));
     }
+    if (/\/settings\/profile$/.test(a)) {
+      const em = f.querySelector('[name=email]'); const changed = em && em.value.trim().toLowerCase() !== (f.dataset.originalEmail || '').toLowerCase();
+      if (changed && !(f.querySelector('[name=current_password]') || {}).value) return flash(t('settings.email_needs_password'), 'amber');
+      return flash(t('profile.saved') + (changed ? ' ' + t('settings.email_changed', { email: em.value.trim() }) : ''));
+    }
+    if (/\/settings\/notifications$/.test(a)) return flash(t('settings.saved'));
+    if (/\/settings\/cv\/remove$/.test(a)) { cur().querySelectorAll('.set-file').forEach((x) => x.remove()); return flash(t('settings.cv_removed'), 'amber'); }
     if (/\/settings$/.test(a)) { const dm = f.querySelector('[name=dark_mode]'); if (dm) window.COOP_SET_THEME(dm.checked ? 'dark' : 'light'); return flash(t('settings.saved')); }
     if (/\/settings\/password$/.test(a)) { f.reset(); return flash(t('settings.password_changed')); }
     if (/\/settings\/email$/.test(a)) { const e = val('new_email'); f.reset(); return flash(t('settings.email_changed', { email: e })); }
@@ -129,5 +136,11 @@
     else filter(cur(), terms);
   };
   document.addEventListener('input', (e) => { const f = e.target.closest('form.app-filters'); if (f) window.COOP_SEARCH(f); });
+  // Settings: notification switches save on flip; changing the email asks for the password.
+  document.addEventListener('change', (e) => { if (e.target.closest('form[data-autosave]')) flash(t('settings.saved')); });
+  document.addEventListener('input', (e) => {
+    const f = e.target.closest('form[data-original-email]'); if (!f || e.target.name !== 'email') return;
+    const box = f.querySelector('[data-email-confirm]'); if (box) box.hidden = e.target.value.trim().toLowerCase() === f.dataset.originalEmail.toLowerCase();
+  });
   document.addEventListener('change', (e) => { const f = e.target.closest('form.app-filters'); if (f && e.target.tagName === 'SELECT' && !e.target.hasAttribute('data-autosubmit-select')) window.COOP_SEARCH(f); });
 })();

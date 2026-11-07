@@ -17,6 +17,12 @@ Build the COOP Cooperative Training Management System website described in `COOP
 - **Demo accounts:** every account uses the password `Coop2026!`: `admin@ecoop.test`, `supervisor@ecoop.test` (Dr. Khalid Omar), `company@ecoop.test` (Nova Systems), `student@ecoop.test` (placed in Backend Developer Intern) and `newstudent@ecoop.test` (no placement).
 - **Profile photo and language:** pressing the avatar opens a picker and the photo updates everywhere at once; an العربية / English button sits in every dashboard's top bar. Both also work in the HTML file. Tested by `tests/e2e-avatar-lang.js` (10 of 10 pass).
 - **Bug fixed:** going back to the previous page ignored the port number, so on addresses like `127.0.0.1:8080` the language switch and other actions went to the home page.
+- **Settings, rebuilt:**
+  - Sections: Profile (role-specific fields, CV upload and Remove, email change with password), Notifications (four switches that save instantly and control which emails are sent), Appearance (language and theme), Security (password), Help, and a profile card with the photo.
+  - Kept in the COOP design, as you asked; your banner design was tried and reverted.
+  - New cron jobs: `attendance_reminders.php` and `weekly_summary.php`.
+  - Tested by `tests/e2e-settings.js` (23 checks).
+- **Bug fixed:** accepting an applicant when the seats had just filled gave a server error; it now shows the "All seats are taken" message.
 - **New pages:**
   - Public: FAQ and Privacy.
   - Company: Applicant profile.

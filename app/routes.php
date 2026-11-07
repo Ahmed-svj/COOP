@@ -40,6 +40,9 @@ $router->group('', ['auth'], function (Router $r) {
     $r->post('/settings', 'ProfileController@saveSettings');
     $r->post('/settings/password', 'ProfileController@changePassword');
     $r->post('/settings/email', 'ProfileController@changeEmail');
+    $r->post('/settings/profile', 'ProfileController@saveProfile');
+    $r->post('/settings/notifications', 'ProfileController@saveNotifications');
+    $r->post('/settings/cv/remove', 'ProfileController@removeCv');
     $r->post('/settings/avatar', 'ProfileController@avatar');
     $r->get('/avatar/{id}', 'ProfileController@showAvatar');
     $r->get('/files/cv/{id}', 'ProfileController@downloadCv');

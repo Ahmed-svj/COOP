@@ -50,7 +50,10 @@ class Database
         $pdo->beginTransaction();
         try {
             $result = $fn($pdo);
-            $pdo->commit();
+            // The callback may already have rolled back (e.g. a business rule failed); only commit an open transaction.
+            if ($pdo->inTransaction()) {
+                $pdo->commit();
+            }
             return $result;
         } catch (Throwable $e) {
             if ($pdo->inTransaction()) {

@@ -10,11 +10,11 @@ class ProfileController extends Controller
 {
     public function settings(): void
     {
-        $prefs = [
-            'email_notifications' => pref('email_notifications', true),
-            'dark_mode'           => current_theme() === 'dark',
-        ];
-        $this->view('shared/settings', compact('prefs'));
+        $prefs = [];
+        foreach (\NotificationService::CATEGORIES as $key => $default) {
+            $prefs[$key] = pref($key, $default);
+        }
+        $this->view('shared/settings', ['prefs' => $prefs, 'profile' => Auth::profile()]);
     }
 
     public function saveSettings(): void
@@ -38,7 +38,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         if (!password_verify((string) ($_POST['current_password'] ?? ''), $user['PasswordHash'])) {
-            \Session::flash('errors', ['current_password' => __('settings.wrong_password')]);
+            \Session::flash('errors', ['password_current' => __('settings.wrong_password')]);
             $this->redirect('/settings');
         }
         $d = $this->validate(['password' => 'required|password|confirmed']);
@@ -46,6 +46,103 @@ class ProfileController extends Controller
         \Session::regenerate();
         \AuditService::log('PASSWORD_CHANGED', 'User', (int) $user['UserID']);
         flash('success', __('settings.password_changed'));
+        $this->redirect('/settings');
+    }
+
+    /** Settings → Profile: the fields depend on the role. Changing the email needs the current password. */
+    public function saveProfile(): void
+    {
+        $u = Auth::user();
+        $role = $u['Role'];
+        $p = Auth::profile();
+        $_POST['email'] = strtolower(trim((string) ($_POST['email'] ?? '')));
+        $rules = [
+            'full_name' => 'required|min:3|max:150',
+            'email'     => 'required|email|max:190' . ($role === 'Student' ? '|student_email' : ''),
+            'phone'     => 'required|phone',
+        ];
+        $rules += match ($role) {
+            'Student'    => ['gpa' => 'required|numeric|between:0,5', 'major' => 'required|max:150'],
+            'Company'    => ['company_name' => 'required|min:2|max:190', 'city' => 'required|max:100'],
+            'Supervisor' => ['department' => 'required|max:150'],
+            default      => [],
+        };
+        $d = $this->validate($rules);
+
+        $emailChanged = $d['email'] !== strtolower($u['Email']);
+        if ($emailChanged) {
+            $errors = [];
+            if (Database::value('SELECT 1 FROM users WHERE Email = ? AND UserID <> ?', [$d['email'], $u['UserID']])) {
+                $errors['email'] = __('v.unique');
+            } elseif (!password_verify((string) ($_POST['current_password'] ?? ''), $u['PasswordHash'])) {
+                $errors['current_password'] = __('settings.email_needs_password');
+            }
+            if ($errors) {
+                \Session::flash('errors', $errors);
+                \Session::flash('old', $d);
+                $this->redirect('/settings');
+            }
+        }
+
+        $cv = null;
+        if ($role === 'Student' && !empty($_FILES['cv']) && $_FILES['cv']['error'] !== UPLOAD_ERR_NO_FILE) {
+            [$cv, $err] = Upload::store($_FILES['cv'], 'cv');
+            if ($err) {
+                \Session::flash('errors', ['cv' => $err]);
+                \Session::flash('old', $d);
+                $this->redirect('/settings');
+            }
+        }
+
+        Database::transaction(function () use ($u, $role, $p, $d, $cv) {
+            Database::query('UPDATE users SET FullName = ?, Email = ?, Phone = ? WHERE UserID = ?', [$d['full_name'], $d['email'], $d['phone'], $u['UserID']]);
+            match ($role) {
+                'Student'    => Database::query('UPDATE students SET GPA = ?, Major = ?' . ($cv ? ', CVFilePath = ?' : '') . ' WHERE StudentID = ?',
+                                    $cv ? [$d['gpa'], $d['major'], $cv, $p['StudentID']] : [$d['gpa'], $d['major'], $p['StudentID']]),
+                'Company'    => Database::query('UPDATE companies SET CompanyName = ?, City = ? WHERE CompanyID = ?', [$d['company_name'], $d['city'], $p['CompanyID']]),
+                'Supervisor' => Database::query('UPDATE academic_supervisors SET Department = ? WHERE SupervisorID = ?', [$d['department'], $p['SupervisorID']]),
+                default      => null,
+            };
+        });
+        if ($cv) {
+            Upload::delete($p['CVFilePath'] ?? null);
+        }
+        \AuditService::log('PROFILE_UPDATED', 'User', (int) $u['UserID']);
+        if ($emailChanged) {
+            \Session::regenerate();
+            \AuditService::log('EMAIL_CHANGED', 'User', (int) $u['UserID'], $u['Email'] . ' -> ' . $d['email']);
+            \MailService::send($u['Email'], __('settings.email_changed_subject'), __('settings.email_changed_body', ['email' => $d['email']]));
+            flash('success', __('profile.saved') . ' ' . __('settings.email_changed', ['email' => $d['email']]));
+        } else {
+            flash('success', __('profile.saved'));
+        }
+        $this->redirect('/settings');
+    }
+
+    /** Settings → Notifications: which emails to receive (saved as you flip them). */
+    public function saveNotifications(): void
+    {
+        $id = Auth::id();
+        foreach (array_keys(\NotificationService::CATEGORIES) as $key) {
+            \UserPreference::set($id, $key, !empty($_POST[$key]));
+        }
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            $this->json(['ok' => true, 'message' => __('settings.saved')]);
+        }
+        flash('success', __('settings.saved'));
+        $this->redirect('/settings');
+    }
+
+    public function removeCv(): void
+    {
+        $p = Auth::profile();
+        if (Auth::role() !== 'Student' || empty($p['CVFilePath'])) {
+            $this->redirect('/settings');
+        }
+        Upload::delete($p['CVFilePath']);
+        Database::query('UPDATE students SET CVFilePath = NULL WHERE StudentID = ?', [$p['StudentID']]);
+        \AuditService::log('CV_REMOVED', 'Student', (int) $p['StudentID']);
+        flash('warning', __('settings.cv_removed'));
         $this->redirect('/settings');
     }
 
@@ -76,7 +173,7 @@ class ProfileController extends Controller
     public function avatar(): void
     {
         $ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']);
-        [$path, $err] = Upload::store($_FILES['avatar'] ?? null, 'avatars', Upload::IMAGES, 2 * 1024 * 1024);
+        [$path, $err] = Upload::store($_FILES['avatar'] ?? null, 'avatars', Upload::IMAGES, 5 * 1024 * 1024);
         if ($err && $ajax) {
             $this->json(['ok' => false, 'error' => $err], 422);
         }

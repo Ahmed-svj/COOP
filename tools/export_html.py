@@ -231,7 +231,8 @@ router = r'''
     } else if (action.endsWith('/logout')) {
       location.hash = '#login' + sfx;
     } else if (action.endsWith('/theme')) {
-      setTheme(document.querySelector('section.page:not([hidden])').dataset.theme === 'dark' ? 'light' : 'dark');
+      const want = e.submitter && /^(light|dark)$/.test(e.submitter.value) ? e.submitter.value : null;
+      setTheme(want || (document.querySelector('section.page:not([hidden])').dataset.theme === 'dark' ? 'light' : 'dark'));
       f.querySelector('button')?.removeAttribute('disabled');
     } else if (action.endsWith('/settings/avatar')) {
       useFile(f.querySelector('input[type=file]').files[0], f.closest('section.page').dataset.role);
@@ -247,6 +248,7 @@ router = r'''
   function setTheme(t) {
     pages.forEach((p) => { p.dataset.theme = t; });
     document.querySelectorAll('input[name=dark_mode]').forEach((i) => { i.checked = t === 'dark'; });
+    document.querySelectorAll('.set-theme-form button[name=theme]').forEach((b) => { const on = b.value === t; b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.toggleAttribute('aria-current', on); });
     try { localStorage.setItem('coop-theme', t); } catch (e) {}
     window.dispatchEvent(new Event('resize'));
   }

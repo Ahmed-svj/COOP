@@ -23,7 +23,11 @@ MIS 451 capstone, Jubail Industrial College. Built from the *COOP Development Gu
    ```
    With Apache, point the `DocumentRoot` (or a virtual host) at `coop/public`; `.htaccess` routes every request to `index.php`.
 6. Make `storage/` writable by the web server.
-7. Schedule the cron jobs from `cron/` (see each file's first line).
+7. Schedule the cron jobs from `cron/` (see each file's first line):
+   - `expire_daily_codes.php` and `complete_placements.php` (nightly)
+   - `attendance_reminders.php` (each training morning, Sun–Thu)
+   - `weekly_summary.php` (Thursday afternoon)
+   - `backup.sh` (daily)
 
 ## Demo accounts (after `seed.php`)
 
@@ -146,3 +150,15 @@ After changing pages, rebuild the preview while the site is running, then commit
 ```bash
 python3 tools/export_html.py docs/index.html
 ```
+
+## Settings page
+
+Settings is in the COOP design: white cards with mint switches and buttons.
+- **Profile card:** your photo (press it, or use "Change photo", for PNG, JPG or WebP up to 5 MB), name, role and email.
+- **Profile:**
+  - Name, email and phone for every role, plus each role's own fields: GPA, major and CV (with Remove) for students; company name and city for companies; department for supervisors.
+  - Changing the email asks for your current password. The new address must not be in use, students must use a college domain, and the old address is told by email.
+- **Notifications:** Attendance reminders, Application updates, Reports and evaluations, and Weekly summary. Each saves as soon as you flip it, and decides which emails you get. The two cron jobs above send the reminders and the summary.
+- **Appearance:** Language (English / العربية) and Theme (Light / Dark). Dark is the default.
+- **Security:** change password.
+- **Help:** FAQ, message the co-op office, and the privacy notice.
