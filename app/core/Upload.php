@@ -32,7 +32,11 @@ class Upload
         }
 
         $name = bin2hex(random_bytes(16)) . '.' . $allowed[$mime];
-        $target = BASE_PATH . "/storage/uploads/$dir/$name";
+        $folder = BASE_PATH . "/storage/uploads/$dir";
+        if (!is_dir($folder) && !mkdir($folder, 0775, true) && !is_dir($folder)) {
+            return [null, __('upload.failed')];
+        }
+        $target = "$folder/$name";
         if (!move_uploaded_file($file['tmp_name'], $target)) {
             return [null, __('upload.failed')];
         }
