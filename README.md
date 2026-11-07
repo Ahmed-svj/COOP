@@ -171,3 +171,13 @@ A supervisor can change a check-in that was already approved or rejected:
 3. The student is notified, and the audit log records the old and new status.
 
 Only the student's own supervisor can do this. `tests/e2e-attendance-change.js` checks it.
+
+## Supervisor registration
+
+Academic supervisors can sign up at **/register/supervisor**. The link is on the login page, the home page and the other sign-up pages.
+1. They use a college email (`STUDENT_EMAIL_DOMAIN`), a department and a phone number.
+2. The account starts as **waiting for approval**. The supervisor can log in and sees a notice, but cannot be assigned students yet.
+3. The admin is notified, and the dashboard and System report show a reminder. In **Users → Academic supervisor**, the admin chooses **Approve** or **Reject** (with a reason).
+4. Approving notifies the supervisor. Rejecting turns the account off and emails the reason.
+
+Supervisors the admin creates, and the demo ones, are approved straight away. Existing databases need `database/migrations/2026_11_supervisor_registration.sql` once. `tests/e2e-register-supervisor.js` covers all of this.

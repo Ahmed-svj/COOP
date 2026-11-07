@@ -3,6 +3,10 @@ $max = (int) $sp['MaxStudentLoad']; $loadPct = (int) round($load * 100 / max(1, 
 $completed = count(array_filter($cohort, fn ($r) => $r['PlacementStatus'] === 'Completed')); ?>
 <p class="co-greet"><?= e(greeting()) ?></p>
 <p class="co-name"><bdi><?= e(short_name($sp['FullName'])) ?></bdi></p>
+<?php if (($sp['ApprovalStatus'] ?? 'Approved') !== 'Approved'): ?>
+  <div class="co-alert <?= $sp['ApprovalStatus'] === 'Rejected' ? 'co-alert--red' : 'co-alert--amber' ?> mt-3" role="status"><?= icon('info') ?>
+    <div><strong><?= e(__('sup.status_' . $sp['ApprovalStatus'])) ?></strong><?= e($sp['ApprovalStatus'] === 'Rejected' ? ($sp['RejectionReason'] ?? '') : __('sup.pending_d')) ?></div></div>
+<?php endif; ?>
 <div class="app-kpis">
   <section class="co-card"><div class="co-card__head"><span class="co-tile"><?= icon('users') ?></span><h2 class="co-card__title"><?= e(__('sup.k_students')) ?></h2></div><div class="co-metric"><?= $load ?> <small>/ <?= $max ?></small></div>
     <div class="co-progress co-progress--thin<?= $loadPct < 90 ? ' co-progress--mint' : '' ?>" role="progressbar" aria-valuenow="<?= $loadPct ?>" aria-valuemin="0" aria-valuemax="100" aria-label="<?= e(__('sup.load')) ?>"><span style="width:<?= min(100, $loadPct) ?>%"></span></div></section>

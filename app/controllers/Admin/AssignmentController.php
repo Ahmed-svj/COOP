@@ -15,7 +15,7 @@ class AssignmentController extends Base
                JOIN training_placements p ON p.PlacementID = s.PlacementID
                JOIN coop_opportunities o ON o.OpportunityID = p.OpportunityID JOIN companies c ON c.CompanyID = o.CompanyID
               ORDER BY s.SupervisorID IS NOT NULL, u.FullName");
-        $supervisors = Database::all('SELECT * FROM v_supervisor_load ORDER BY FullName');
+        $supervisors = Database::all("SELECT * FROM v_supervisor_load WHERE ApprovalStatus = 'Approved' ORDER BY FullName");
         $this->view('admin/assign-supervisors', compact('students', 'supervisors'));
     }
 
@@ -24,7 +24,7 @@ class AssignmentController extends Base
         $studentId = (int) ($_POST['student_id'] ?? 0);
         $supId = (int) ($_POST['supervisor_id'] ?? 0);
         $s = \Student::withUser($studentId);
-        $load = Database::one('SELECT * FROM v_supervisor_load WHERE SupervisorID = ?', [$supId]);
+        $load = Database::one("SELECT * FROM v_supervisor_load WHERE SupervisorID = ? AND ApprovalStatus = 'Approved'", [$supId]);
         if (!$s || !$load || !$s['PlacementID']) {
             flash('error', __('err.not_found'));
             $this->back();

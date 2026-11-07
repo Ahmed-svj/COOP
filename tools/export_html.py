@@ -43,7 +43,7 @@ def norm(href):
     return path + ('?' + urllib.parse.urlencode(qs) if qs else '')
 
 PAGES = {
-    'public': ['/', '/about', '/faq', '/privacy', '/contact', '/login', '/register/student', '/register/company', '/forgot-password', '/page-not-found'],
+    'public': ['/', '/about', '/faq', '/privacy', '/contact', '/login', '/register/student', '/register/company', '/register/supervisor', '/forgot-password', '/page-not-found'],
     'student': ['/student/dashboard', '/student/profile', '/student/opportunities',
                 *[f'/student/opportunities/{i}' for i in q('SELECT OpportunityID FROM v_public_opportunities')],
                 '/student/applications', *[f'/student/applications?status={st}' for st in ('Pending', 'Accepted', 'Rejected', 'Withdrawn')],
@@ -239,8 +239,8 @@ router = r'''
       f.querySelector('button')?.removeAttribute('disabled');
     } else if (action.endsWith('/settings/avatar')) {
       useFile(f.querySelector('input[type=file]').files[0], f.closest('section.page').dataset.role);
-    } else if (/register\/(student|company)$/.test(action)) {
-      location.hash = '#' + (action.endsWith('student') ? DASH.student : DASH.company) + sfx;
+    } else if (/register\/(student|company|supervisor)$/.test(action)) {
+      location.hash = '#' + (action.endsWith('student') ? DASH.student : action.endsWith('company') ? DASH.company : DASH.supervisor) + sfx;
     } else if ((f.getAttribute('method') || '').toLowerCase() === 'get') {
       window.COOP_SEARCH(f, action);
     } else {

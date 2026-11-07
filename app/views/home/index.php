@@ -7,6 +7,7 @@
     <div class="hero__actions">
       <a class="co-btn co-btn--primary" href="<?= url('/register/student') ?>"><?= icon('cap', 'co-ico--sm') ?><?= e(__('home.cta_student')) ?></a>
       <a class="co-btn" href="<?= url('/register/company') ?>"><?= icon('building', 'co-ico--sm') ?><?= e(__('home.cta_company')) ?></a>
+      <a class="co-btn co-btn--soft" href="<?= url('/register/supervisor') ?>"><?= icon('users', 'co-ico--sm') ?><?= e(__('home.cta_supervisor')) ?></a>
     </div>
     <dl class="hero__stats">
       <div><dt><?= e(__('home.stat_companies')) ?></dt><dd><?= (int) $stats['companies'] ?></dd></div>

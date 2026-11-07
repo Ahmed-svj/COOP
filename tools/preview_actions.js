@@ -39,6 +39,8 @@
     if (/\/applications\/\d+\/accept$/.test(a)) { setStatus(f, 'Accepted'); return flash(t('app.accepted')); }
     if (/\/applications\/\d+\/reject$/.test(a)) { setStatus(f, 'Rejected'); return flash(t('app.rejected')); }
     if (/\/applications\/\d+\/withdraw$/.test(a)) { setStatus(f, 'Withdrawn'); return flash(t('app.withdrawn')); }
+    if (/\/supervisors\/\d+\/approve$/.test(a)) { setStatus(f, 'Approved'); return flash(t('admin.supervisor_approved', { name: '' }).trim()); }
+    if (/\/supervisors\/\d+\/reject$/.test(a)) { setStatus(f, 'Rejected'); return flash(t('admin.supervisor_rejected', { name: '' }).trim()); }
     if (/\/(companies|opportunities)\/\d+\/approve$/.test(a)) { setStatus(f, 'Approved'); return flash(t('admin.decision_saved')); }
     if (/\/(companies|opportunities)\/\d+\/reject$/.test(a)) { setStatus(f, 'Rejected'); return flash(t('admin.decision_saved')); }
     if (/\/attendance\/\d+\/approve$/.test(a)) { setStatus(f, 'Approved'); return flash(t('att.approved')); }

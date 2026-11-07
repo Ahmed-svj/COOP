@@ -17,6 +17,9 @@ Build the COOP Cooperative Training Management System website described in `COOP
 - **Demo accounts:** every account uses the password `Coop2026!`: `admin@ecoop.test`, `supervisor@ecoop.test` (Dr. Khalid Omar), `company@ecoop.test` (Nova Systems), `student@ecoop.test` (placed in Backend Developer Intern) and `newstudent@ecoop.test` (no placement).
 - **Profile photo and language:** pressing the avatar opens a picker and the photo updates everywhere at once; an العربية / English button sits in every dashboard's top bar. Both also work in the HTML file. Tested by `tests/e2e-avatar-lang.js` (10 of 10 pass).
 - **Bug fixed:** going back to the previous page ignored the port number, so on addresses like `127.0.0.1:8080` the language switch and other actions went to the home page.
+- **Supervisor registration:** `/register/supervisor` uses a college email and starts as waiting for approval (not assignable). The admin approves or rejects it from Users; rejecting turns the account off.
+  - New columns: `academic_supervisors.ApprovalStatus` and `RejectionReason` (in `schema.sql`, plus a migration for existing databases).
+  - Tested by `tests/e2e-register-supervisor.js` (14 of 14).
 - **Supervisors can change attendance decisions:** a Change button on approved or rejected check-ins (Attendance review and student history) switches between Approved and Rejected. Rejecting needs a comment, and the student is notified and the change audited. Tested by `tests/e2e-attendance-change.js` (11 of 11).
 - **Preview fix:** dialogs repeated on several pages of the HTML preview now get unique IDs, so the right dialog always opens.
 - **Settings, rebuilt:**

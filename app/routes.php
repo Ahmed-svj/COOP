@@ -18,6 +18,8 @@ $router->post('/logout', 'AuthController@logout', ['auth']);
 $router->get('/register/student', 'AuthController@studentForm', ['guest']);
 $router->post('/register/student', 'AuthController@registerStudent', ['guest']);
 $router->get('/register/company', 'AuthController@companyForm', ['guest']);
+$router->get('/register/supervisor', 'AuthController@supervisorForm', ['guest']);
+$router->post('/register/supervisor', 'AuthController@registerSupervisor', ['guest']);
 $router->post('/register/company', 'AuthController@registerCompany', ['guest']);
 $router->get('/forgot-password', 'AuthController@forgotForm', ['guest']);
 $router->post('/forgot-password', 'AuthController@forgot', ['guest']);
@@ -111,6 +113,8 @@ $router->group('/admin', ['role:Admin'], function (Router $r) {
     $r->get('/dashboard', 'Admin\DashboardController@index');
     $r->get('/users', 'Admin\UserController@index');
     $r->post('/users/supervisor', 'Admin\UserController@createSupervisor');
+    $r->post('/supervisors/{id}/approve', 'Admin\UserController@approveSupervisor');
+    $r->post('/supervisors/{id}/reject', 'Admin\UserController@rejectSupervisor');
     $r->post('/users/{id}/toggle', 'Admin\UserController@toggle');
     $r->get('/users/{id}', 'Admin\UserController@show');
     $r->get('/placements', 'Admin\AssignmentController@placements');

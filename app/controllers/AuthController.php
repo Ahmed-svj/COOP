@@ -102,6 +102,39 @@ class AuthController extends Controller
         $this->redirect('/company/dashboard');
     }
 
+    public function supervisorForm(): void
+    {
+        $this->view('auth/register-supervisor', [], 'main');
+    }
+
+    /** Academic supervisors sign up with a college email; the co-op office approves them before students are assigned. */
+    public function registerSupervisor(): void
+    {
+        $_POST['email'] = strtolower(trim($_POST['email'] ?? ''));
+        $d = $this->validate([
+            'full_name'  => 'required|min:3|max:150',
+            'email'      => 'required|email|student_email|max:190|unique:users,Email',
+            'department' => 'required|max:150',
+            'phone'      => 'required|phone',
+            'password'   => 'required|password|confirmed',
+            'privacy'    => 'required',
+        ]);
+        $userId = Database::transaction(function () use ($d) {
+            $uid = \User::insert([
+                'FullName' => $d['full_name'], 'Email' => $d['email'], 'Phone' => $d['phone'],
+                'PasswordHash' => password_hash($d['password'], PASSWORD_BCRYPT), 'Role' => 'Supervisor',
+                'PrivacyAcceptedAt' => date('Y-m-d H:i:s'),
+            ]);
+            \AcademicSupervisor::insert(['UserID' => $uid, 'Department' => $d['department'], 'ApprovalStatus' => 'Pending']);
+            return $uid;
+        });
+        AuditService::log('REGISTER_SUPERVISOR', 'User', $userId, null, $userId);
+        NotificationService::admins(__('n.supervisor_registered', ['name' => $d['full_name']]), '/admin/users?role=Supervisor');
+        Auth::login($userId);
+        flash('success', __('auth.welcome_supervisor'));
+        $this->redirect('/supervisor/dashboard');
+    }
+
     public function forgotForm(): void
     {
         $this->view('auth/forgot-password', [], 'main');

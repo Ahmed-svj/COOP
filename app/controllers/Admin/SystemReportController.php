@@ -55,10 +55,11 @@ class SystemReportController extends Base
         $backups = glob(BASE_PATH . '/storage/backups/*.sql.gz') ?: [];
         $lastBackup = $backups ? date('Y-m-d H:i', max(array_map('filemtime', $backups))) : null;
         $scheduler = (string) (Database::one("SHOW VARIABLES LIKE 'event_scheduler'")['Value'] ?? '?');
-        $loads = Database::all('SELECT * FROM v_supervisor_load ORDER BY CurrentLoad DESC');
+        $loads = Database::all("SELECT * FROM v_supervisor_load WHERE ApprovalStatus = 'Approved' ORDER BY CurrentLoad DESC");
 
         $todo = array_values(array_filter([
             ['label' => 'report.t_companies', 'n' => $comps['Pending'] ?? 0, 'href' => '/admin/companies'],
+            ['label' => 'report.t_supervisors', 'n' => $n("SELECT COUNT(*) FROM academic_supervisors WHERE ApprovalStatus = 'Pending'"), 'href' => '/admin/users?role=Supervisor'],
             ['label' => 'report.t_opps', 'n' => $opps['Pending Approval'] ?? 0, 'href' => '/admin/opportunities'],
             ['label' => 'report.t_unassigned', 'n' => $n('SELECT COUNT(*) FROM students WHERE PlacementID IS NOT NULL AND SupervisorID IS NULL'), 'href' => '/admin/assign'],
             ['label' => 'report.t_overdue', 'n' => $n("SELECT COUNT(*) FROM training_placements WHERE Status = 'Active' AND EndDate < CURDATE()"), 'href' => '/admin/placements'],

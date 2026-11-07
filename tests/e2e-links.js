@@ -3,7 +3,7 @@
 const { chromium } = require('playwright');
 const B = process.env.BASE || 'http://127.0.0.1:8080';
 const ROLES = { public: null, student: 'student@ecoop.test', company: 'company@ecoop.test', supervisor: 'supervisor@ecoop.test', admin: 'admin@ecoop.test' };
-const START = { public: ['/', '/about', '/faq', '/privacy', '/contact', '/login', '/register/student', '/register/company', '/forgot-password'],
+const START = { public: ['/', '/about', '/faq', '/privacy', '/contact', '/login', '/register/student', '/register/company', '/register/supervisor', '/forgot-password'],
   student: ['/student/dashboard'], company: ['/company/dashboard'], supervisor: ['/supervisor/dashboard'], admin: ['/admin/dashboard'] };
 const HANDLED = ['data-bs-toggle', 'data-bs-dismiss', 'data-avatar-pick', 'data-dismiss-alert', 'data-print', 'data-theme-toggle'];
 (async () => {

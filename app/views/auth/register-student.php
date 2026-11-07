@@ -18,6 +18,6 @@
       </div>
       <button class="co-btn co-btn--primary" type="submit"><?= e(__('auth.create_account')) ?></button>
     </form>
-    <p class="co-caption auth__switch"><?= e(__('auth.have_account')) ?> <a href="<?= url('/login') ?>"><?= e(__('auth.login')) ?></a> · <a href="<?= url('/register/company') ?>"><?= e(__('auth.as_company')) ?></a></p>
+    <p class="co-caption auth__switch"><?= e(__('auth.have_account')) ?> <a href="<?= url('/login') ?>"><?= e(__('auth.login')) ?></a> · <a href="<?= url('/register/company') ?>"><?= e(__('auth.as_company')) ?></a> · <a href="<?= url('/register/supervisor') ?>"><?= e(__('auth.as_supervisor')) ?></a></p>
   </div>
 </section>

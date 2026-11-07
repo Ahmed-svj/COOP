@@ -23,7 +23,8 @@ class UserController extends Base
         }
         [$offset, $per, $page] = paginate(20);
         $total = (int) Database::value('SELECT COUNT(*) FROM users WHERE ' . implode(' AND ', $where), $params);
-        $users = Database::all('SELECT * FROM users WHERE ' . implode(' AND ', $where) . " ORDER BY CreatedAt DESC LIMIT $per OFFSET $offset", $params);
+        $users = Database::all('SELECT u.*, sp.SupervisorID, sp.ApprovalStatus AS SupApproval FROM users u LEFT JOIN academic_supervisors sp ON sp.UserID = u.UserID WHERE '
+            . implode(' AND ', $where) . " ORDER BY (sp.ApprovalStatus = 'Pending') DESC, u.CreatedAt DESC LIMIT $per OFFSET $offset", $params);
         $this->view('admin/users', compact('users', 'role', 'q', 'total', 'page', 'per'));
     }
 
@@ -51,6 +52,47 @@ class UserController extends Base
         };
         $logs = Database::all('SELECT * FROM audit_logs WHERE UserID = ? ORDER BY AuditLogID DESC LIMIT 10', [$id]);
         $this->view('admin/user-details', compact('u', 'profile', 'logs'));
+    }
+
+    public function approveSupervisor(int $id): void
+    {
+        $sp = Database::one('SELECT sp.*, u.FullName FROM academic_supervisors sp JOIN users u ON u.UserID = sp.UserID WHERE sp.SupervisorID = ?', [$id]);
+        if (!$sp) {
+            abort(404);
+        }
+        $stmt = Database::query("UPDATE academic_supervisors SET ApprovalStatus = 'Approved', RejectionReason = NULL WHERE SupervisorID = ? AND ApprovalStatus = 'Pending'", [$id]);
+        if ($stmt->rowCount() !== 1) {
+            flash('error', __('err.not_pending'));
+            $this->back();
+        }
+        \NotificationService::notify((int) $sp['UserID'], __('n.supervisor_approved'), '/supervisor/dashboard');
+        \AuditService::log('SUPERVISOR_APPROVED', 'Supervisor', $id);
+        flash('success', __('admin.supervisor_approved', ['name' => $sp['FullName']]));
+        $this->back();
+    }
+
+    /** Rejecting a self-registered supervisor also turns the account off. */
+    public function rejectSupervisor(int $id): void
+    {
+        $reason = mb_substr(trim((string) ($_POST['reason'] ?? '')), 0, 1000);
+        if ($reason === '') {
+            flash('error', __('app.reason_required'));
+            $this->back();
+        }
+        $sp = Database::one('SELECT sp.*, u.FullName, u.Email FROM academic_supervisors sp JOIN users u ON u.UserID = sp.UserID WHERE sp.SupervisorID = ?', [$id]);
+        if (!$sp) {
+            abort(404);
+        }
+        $stmt = Database::query("UPDATE academic_supervisors SET ApprovalStatus = 'Rejected', RejectionReason = ? WHERE SupervisorID = ? AND ApprovalStatus = 'Pending'", [$reason, $id]);
+        if ($stmt->rowCount() !== 1) {
+            flash('error', __('err.not_pending'));
+            $this->back();
+        }
+        Database::query("UPDATE users SET AccountStatus = 'Suspended' WHERE UserID = ?", [$sp['UserID']]);
+        \MailService::send($sp['Email'], __('n.supervisor_rejected_subject'), __('n.supervisor_rejected', ['reason' => $reason]));
+        \AuditService::log('SUPERVISOR_REJECTED', 'Supervisor', $id, $reason);
+        flash('success', __('admin.supervisor_rejected', ['name' => $sp['FullName']]));
+        $this->back();
     }
 
     public function toggle(int $id): void

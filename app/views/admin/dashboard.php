@@ -2,6 +2,9 @@
 <p class="co-greet"><?= e(greeting()) ?></p>
 <div class="d-flex justify-content-between align-items-end flex-wrap gap-2"><div></div><a class="co-btn co-btn--soft co-btn--sm" href="<?= url('/admin/report') ?>"><?= icon('doc', 'co-ico--sm') ?><?= e(__('nav.system_report')) ?></a></div>
 <p class="co-name"><bdi><?= e(short_name($u['FullName'])) ?></bdi></p>
+<?php if ($k['pending_supervisors']): ?>
+  <a class="co-alert co-alert--amber mt-3 app-row-link" href="<?= url('/admin/users', ['role' => 'Supervisor']) ?>"><?= icon('users') ?><div><strong><?= e(__('admin.supervisors_waiting', ['n' => $k['pending_supervisors']])) ?></strong><?= e(__('admin.supervisors_waiting_d')) ?></div></a>
+<?php endif; ?>
 <div class="app-kpis">
   <?php foreach ([['pending_companies', 'building', 'admin.k_companies', '/admin/companies', 'amber'], ['pending_opportunities', 'brief', 'admin.k_opps', '/admin/opportunities', 'lavender'], ['active_placements', 'cap', 'admin.k_active', '/admin/assign', 'mint'], ['unassigned', 'assign', 'admin.k_unassigned', '/admin/assign', '']] as [$key, $ic, $lbl, $href, $tone]): ?>
     <section class="co-card"><div class="co-card__head"><span class="co-tile<?= $tone && $tone !== 'amber' ? ' co-tile--' . $tone : '' ?>"><?= icon($ic) ?></span><h2 class="co-card__title"><?= e(__($lbl)) ?></h2><a href="<?= url($href) ?>" aria-label="<?= e(__($lbl)) ?>"><?= icon('chev', 'app-flip') ?></a></div><div class="co-metric"><?= (int) $k[$key] ?></div></section>

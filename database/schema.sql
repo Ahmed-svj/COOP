@@ -81,6 +81,8 @@ CREATE TABLE academic_supervisors (
     UserID          INT UNSIGNED NOT NULL,
     Department      VARCHAR(150) NOT NULL,
     MaxStudentLoad  SMALLINT UNSIGNED NOT NULL DEFAULT 20,
+    ApprovalStatus  ENUM('Pending','Approved','Rejected') NOT NULL DEFAULT 'Approved',  -- self-registered: Pending
+    RejectionReason TEXT NULL,
     CONSTRAINT uq_supervisor_user UNIQUE (UserID),
     CONSTRAINT fk_supervisor_user FOREIGN KEY (UserID) REFERENCES users(UserID) ON DELETE RESTRICT,
     CONSTRAINT chk_supervisor_load CHECK (MaxStudentLoad > 0)
@@ -378,12 +380,12 @@ GROUP BY s.StudentID, u.FullName, s.PlacementID;
 
 -- Supervisor current load (UC-21 warning)
 CREATE VIEW v_supervisor_load AS
-SELECT sp.SupervisorID, u.FullName, sp.Department, sp.MaxStudentLoad,
+SELECT sp.SupervisorID, u.FullName, sp.Department, sp.MaxStudentLoad, sp.ApprovalStatus,
        COUNT(s.StudentID) AS CurrentLoad
 FROM academic_supervisors sp
 JOIN users u ON u.UserID = sp.UserID
 LEFT JOIN students s ON s.SupervisorID = sp.SupervisorID
-GROUP BY sp.SupervisorID, u.FullName, sp.Department, sp.MaxStudentLoad;
+GROUP BY sp.SupervisorID, u.FullName, sp.Department, sp.MaxStudentLoad, sp.ApprovalStatus;
 
 -- =====================================================================
 --  LEAST-PRIVILEGE APPLICATION ACCOUNT (3.4.2.3)

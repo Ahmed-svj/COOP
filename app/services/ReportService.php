@@ -5,6 +5,7 @@ class ReportService
     {
         return [
             'pending_companies'     => (int) Database::value("SELECT COUNT(*) FROM companies WHERE ApprovalStatus = 'Pending'"),
+            'pending_supervisors'   => (int) Database::value("SELECT COUNT(*) FROM academic_supervisors WHERE ApprovalStatus = 'Pending'"),
             'pending_opportunities' => (int) Database::value("SELECT COUNT(*) FROM coop_opportunities WHERE Status = 'Pending Approval'"),
             'active_placements'     => (int) Database::value("SELECT COUNT(*) FROM students s JOIN training_placements p ON p.PlacementID = s.PlacementID WHERE p.Status = 'Active'"),
             'unassigned'            => (int) Database::value('SELECT COUNT(*) FROM students WHERE PlacementID IS NOT NULL AND SupervisorID IS NULL'),

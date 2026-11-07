@@ -33,9 +33,15 @@
         <div><dt><?= e(__('nav.trainees')) ?></dt><dd><?= (int) $profile['Trainees'] ?></dd></div>
       <?php elseif ($u['Role'] === 'Supervisor'): ?>
         <div><dt><?= e(__('admin.department')) ?></dt><dd><?= e($profile['Department']) ?></dd></div>
+        <div><dt><?= e(__('company.approval')) ?></dt><dd><?= status_badge($profile['ApprovalStatus'] === 'Pending' ? 'Pending Approval' : $profile['ApprovalStatus']) ?></dd></div>
         <div><dt><?= e(__('sup.load')) ?></dt><dd><?= (int) $profile['CurrentLoad'] ?> / <?= (int) $profile['MaxStudentLoad'] ?></dd></div>
       <?php endif; ?>
-      </dl></section>
+      </dl>
+      <?php if ($u['Role'] === 'Supervisor' && $profile['ApprovalStatus'] === 'Pending'): ?>
+        <div class="d-flex gap-2"><form method="post" action="<?= url('/admin/supervisors/' . $profile['SupervisorID'] . '/approve') ?>"><?= csrf_field() ?><button class="co-btn co-btn--primary co-btn--sm"><?= e(__('common.approve')) ?></button></form>
+          <button class="co-btn co-btn--danger-ghost co-btn--sm" type="button" data-bs-toggle="modal" data-bs-target="#rejsup-<?= (int) $profile['SupervisorID'] ?>"><?= e(__('common.reject')) ?></button></div>
+        <?= View::partial('partials/reject-modal', ['id' => 'rejsup-' . $profile['SupervisorID'], 'action' => '/admin/supervisors/' . $profile['SupervisorID'] . '/reject', 'title' => __('admin.reject_supervisor', ['name' => $u['FullName']])]) ?>
+      <?php endif; ?></section>
     <?php endif; ?>
   </div>
   <div class="col-lg-6"><section class="co-card"><div class="co-card__head"><span class="co-tile co-tile--lavender"><?= icon('shield') ?></span><h2 class="co-card__title"><?= e(__('admin.recent_activity')) ?></h2><a href="<?= url('/admin/audit-logs') ?>" aria-label="<?= e(__('nav.audit')) ?>"><?= icon('chev', 'app-flip') ?></a></div>
