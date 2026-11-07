@@ -44,6 +44,12 @@ Build the COOP Cooperative Training Management System website described in `COOP
   - Live preview: https://ahmed-svj.github.io/COOP/ (Pages from the repository root; the root `index.html` opens `docs/`).
   - The Tests workflow passes on GitHub Actions.
   - Two problems were found and fixed on the first push: the `vendor/` ignore rule had left out Bootstrap and Chart.js, and an XSS test read the page in a way that depends on the Chromium version.
+- **Laragon (Windows):** see `LARAGON.md`.
+  - `install-laragon.bat` checks PHP and its extensions, creates the database and app account, writes `.env` and loads the demo data.
+  - `cron/register-tasks.bat` adds the scheduled jobs to Windows Task Scheduler, and `cron/backup.bat` makes the daily backup.
+  - A root `.htaccess` forwards everything into `public/`.
+  - Tested here under Apache 2.4 (which Laragon uses) with the project folder served and with `public/` served: every page and all private-file checks passed, and with the project folder served the workflow (39), all links and buttons (135 pages), Settings (23), supervisor sign-up (14) and photo/language (10) passed.
+  - The `.bat` scripts could not be run here (no Windows).
 - **The real system runs from the link:**
   - https://ahmed-svj.github.io/COOP/ is a start page with "Run in GitHub Codespaces" (https://codespaces.new/Ahmed-svj/COOP?quickstart=1) and "Open the preview".
   - Codespaces setup: the MySQL container imports `schema.sql` and creates the app account on first start, `setup.sh` adds the PHP MySQL driver and loads the demo data, and `start.sh` serves the site on port 8080.

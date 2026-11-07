@@ -9,6 +9,10 @@ MIS 451 capstone, Jubail Industrial College. Built from the *COOP Development Gu
 
 ## Run it locally
 
+**On Windows with Laragon:** see **[LARAGON.md](LARAGON.md)**. Put the folder in `C:\laragon\www\coop`, run `install-laragon.bat` from the Laragon Terminal, and open http://coop.test.
+
+**Any other setup (XAMPP, Linux, macOS):**
+
 1. Install XAMPP / Laragon (PHP 8.1+ with `pdo_mysql`, `mbstring`, `fileinfo`) and MySQL 8.
 2. Create the database, tables, views, triggers, event and the `coop_app` account:
    ```bash

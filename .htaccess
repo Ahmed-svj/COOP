@@ -1,0 +1,10 @@
+# COOP – when the web server's document root is the project folder (e.g. Laragon/XAMPP serving C:\laragon\www\coop),
+# send every request into public/ so app/, storage/, .env and database/ are never reachable from the browser.
+Options -Indexes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>
