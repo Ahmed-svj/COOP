@@ -175,8 +175,8 @@ function full_url(string $path = '/', array $query = []): string
     if (preg_match('#^https?://#', $u)) {
         return $u;
     }
-    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-    $https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    $host = request_host();
+    $https = is_https();
     return ($https ? 'https' : 'http') . '://' . $host . $u;
 }
 
@@ -201,7 +201,7 @@ function safe_referer(string $fallback = '/'): string
     }
     $p = parse_url($ref);
     $refHost = ($p['host'] ?? '') . (isset($p['port']) ? ':' . $p['port'] : '');
-    return $refHost === ($_SERVER['HTTP_HOST'] ?? '') ? $ref : $fallback;
+    return in_array($refHost, [request_host(), (string) ($_SERVER['HTTP_HOST'] ?? '')], true) ? $ref : $fallback;
 }
 
 
@@ -219,4 +219,19 @@ function current_theme(): string
 function student_domains(): array
 {
     return array_values(array_filter(array_map('trim', explode(',', strtolower((string) config('student_email_domain'))))));
+}
+
+
+/** The host the browser used. Behind a proxy (GitHub Codespaces, a load balancer) that is X-Forwarded-Host. */
+function request_host(): string
+{
+    $fwd = trim(explode(',', (string) ($_SERVER['HTTP_X_FORWARDED_HOST'] ?? ''))[0]);
+    return $fwd !== '' ? $fwd : (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
+}
+
+/** True when the browser connection is HTTPS (directly, or via a proxy that says so). */
+function is_https(): bool
+{
+    return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || strtolower(trim(explode(',', (string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''))[0])) === 'https';
 }

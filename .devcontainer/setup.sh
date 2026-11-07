@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
-# Codespaces / Dev Container setup: database, app user, .env and demo data.
+# Codespaces / Dev Container setup. The MySQL container creates the schema and app account itself
+# (see docker-compose.yml); here we add the PHP MySQL driver, write .env and load the demo data.
 set -euo pipefail
-sudo apt-get update -qq && sudo apt-get install -y -qq default-mysql-client > /dev/null
-sudo docker-php-ext-install pdo_mysql > /dev/null 2>&1 || true
-printf '[client]\nuser=root\npassword=root\nhost=db\n' > ~/.my.cnf
-until mysqladmin ping --silent; do echo "waiting for MySQL..."; sleep 2; done
-mysql < database/schema.sql
-mysql -e "CREATE USER IF NOT EXISTS 'coop_app'@'%' IDENTIFIED BY 'ChangeThisStrongPassword!'; GRANT SELECT, INSERT, UPDATE, DELETE ON coop_db.* TO 'coop_app'@'%';"
-cp -n .env.example .env
+cd "$(dirname "$0")/.."
+export XDEBUG_MODE=off
+if ! php -m | grep -qi '^pdo_mysql$'; then
+  echo "Installing the PHP MySQL driver..."
+  sudo -E docker-php-ext-install pdo_mysql > /dev/null
+fi
+cp -n .env.example .env 2>/dev/null || true
 sed -i 's/^DB_HOST=.*/DB_HOST=db/' .env
-php database/seed.php
-echo "Ready. Open the forwarded port 8080. Password for every demo account: Coop2026!"
+echo "Waiting for MySQL to finish creating the database..."
+for i in $(seq 1 120); do
+  php -r 'try { new PDO("mysql:host=db;dbname=coop_db", "coop_app", "ChangeThisStrongPassword!"); exit(0); } catch (Throwable $e) { exit(1); }' && break
+  sleep 2
+done
+php database/seed.php || echo "Demo data was already loaded."
+echo "Setup complete."

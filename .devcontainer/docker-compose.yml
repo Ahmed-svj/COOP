@@ -12,5 +12,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - coop-mysql:/var/lib/mysql
+      # First start only: create the schema (tables, views, triggers, event) and the app account.
+      - ../database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./init-app-user.sql:/docker-entrypoint-initdb.d/02-app-user.sql:ro
 volumes:
   coop-mysql:

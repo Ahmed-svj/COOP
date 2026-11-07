@@ -44,7 +44,11 @@ Build the COOP Cooperative Training Management System website described in `COOP
   - Live preview: https://ahmed-svj.github.io/COOP/ (Pages from the repository root; the root `index.html` opens `docs/`).
   - The Tests workflow passes on GitHub Actions.
   - Two problems were found and fixed on the first push: the `vendor/` ignore rule had left out Bootstrap and Chart.js, and an XSS test read the page in a way that depends on the Chromium version.
-- **Not deployed as a PHP server:** use Codespaces (`.devcontainer/`) or your own server. Codespaces has not been run yet.
+- **The real system runs from the link:**
+  - https://ahmed-svj.github.io/COOP/ is a start page with "Run in GitHub Codespaces" (https://codespaces.new/Ahmed-svj/COOP?quickstart=1) and "Open the preview".
+  - Codespaces setup: the MySQL container imports `schema.sql` and creates the app account on first start, `setup.sh` adds the PHP MySQL driver and loads the demo data, and `start.sh` serves the site on port 8080.
+  - Tested in Docker here with the same images, behind a Codespaces-style forwarding address: all pages, the 39 workflow checks and the 23 Settings checks passed. It has not yet run on a real Codespace.
+  - Fixed: the app now honours `X-Forwarded-Host` and `X-Forwarded-Proto`, so redirects, email links and secure cookies work behind the proxy.
 - **Previously not deployed.** It is not on a public URL and not in a git repository. A zip of the project is at `/home/user/coop/coop-website.zip`.
 
 ## 3. Active Files

@@ -3,9 +3,16 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "remoteUser": "vscode",
   "forwardPorts": [8080],
-  "portsAttributes": { "8080": { "label": "COOP website", "onAutoForward": "openBrowser" } },
+  "portsAttributes": {
+    "8080": { "label": "COOP website", "onAutoForward": "openBrowser" }
+  },
   "postCreateCommand": "bash .devcontainer/setup.sh",
-  "postStartCommand": "nohup php -S 0.0.0.0:8080 -t public public/index.php > storage/logs/server.log 2>&1 &",
-  "customizations": { "vscode": { "extensions": ["bmewburn.vscode-intelephense-client"] } }
+  "postStartCommand": "bash .devcontainer/start.sh",
+  "postAttachCommand": "bash .devcontainer/start.sh",
+  "customizations": {
+    "codespaces": { "openFiles": ["README.md"] },
+    "vscode": { "extensions": ["bmewburn.vscode-intelephense-client"] }
+  }
 }

@@ -6,7 +6,7 @@ class Session
         if (session_status() === PHP_SESSION_ACTIVE) {
             return;
         }
-        $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+        $https = is_https();
         session_name('COOPSESSID');
         session_set_cookie_params([
             'lifetime' => 0,

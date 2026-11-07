@@ -1,5 +1,8 @@
 # COOP – Cooperative Training Management System
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Ahmed-svj/COOP?quickstart=1)
+
+
 MIS 451 capstone, Jubail Industrial College. Built from the *COOP Development Guide* (Deliverables 1–3) with the look of the **COOP Design System**.
 
 **Stack:** HTML5 · CSS3 + Bootstrap 5.3.3 (LTR + RTL) · vanilla JavaScript · PHP 8.1+ (no framework, PDO) · MySQL 8.0.16+ · Chart.js 4.4.1
@@ -134,7 +137,8 @@ Every use case from UC-01 to UC-23, plus:
 ## Run it on GitHub
 
 - **Repository:** https://github.com/Ahmed-svj/COOP
-- **Live preview:** https://ahmed-svj.github.io/COOP/. Pages publishes the repository root, and `index.html` forwards to `docs/`.
+- **Start page:** https://ahmed-svj.github.io/COOP/. It has **Run the real system** (Codespaces) and **Open the instant preview** (`docs/`).
+- **Run the real system:** https://codespaces.new/Ahmed-svj/COOP?quickstart=1 starts PHP 8.3 + MySQL 8.0, loads the demo data and opens the site on port 8080.
 - **Tests:** https://github.com/Ahmed-svj/COOP/actions
 
 ### Details
