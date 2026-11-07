@@ -15,7 +15,7 @@
         <div class="col-12 co-field<?= invalid('email') ?>"><label for="email"><?= e(__('auth.work_email')) ?></label><input class="co-input" id="email" name="email" type="email" dir="ltr" value="<?= e(old('email')) ?>" required autocomplete="email"><?= error_for('email') ?></div>
         <div class="col-md-6 co-field<?= invalid('password') ?>"><label for="password"><?= e(__('auth.password')) ?></label><input class="co-input" id="password" name="password" type="password" dir="ltr" required data-rule="password" autocomplete="new-password"><?= error_for('password') ?: '<span class="co-field__help">' . e(__('v.password')) . '</span>' ?></div>
         <div class="col-md-6 co-field"><label for="password_confirmation"><?= e(__('auth.password_confirm')) ?></label><input class="co-input" id="password_confirmation" name="password_confirmation" type="password" dir="ltr" required data-match="password" autocomplete="new-password"></div>
-        <div class="col-12 co-field<?= invalid('privacy') ?>"><label class="app-check"><input type="checkbox" name="privacy" value="1" required> <span><?= e(__('auth.privacy_accept')) ?> <a href="<?= url('/about#privacy') ?>"><?= e(__('auth.privacy_link')) ?></a></span></label><?= error_for('privacy') ?></div>
+        <div class="col-12 co-field<?= invalid('privacy') ?>"><label class="app-check"><input type="checkbox" name="privacy" value="1" required> <span><?= e(__('auth.privacy_accept')) ?> <a href="<?= url('/privacy') ?>"><?= e(__('auth.privacy_link')) ?></a></span></label><?= error_for('privacy') ?></div>
       </div>
       <button class="co-btn co-btn--primary" type="submit"><?= e(__('auth.create_account')) ?></button>
     </form>

@@ -5,6 +5,8 @@
 $router->get('/', 'HomeController@index');
 $router->get('/about', 'HomeController@about');
 $router->get('/contact', 'HomeController@contact');
+$router->get('/faq', 'HomeController@faq');
+$router->get('/privacy', 'HomeController@privacy');
 $router->post('/contact', 'HomeController@sendContact');
 $router->get('/lang/{code}', 'HomeController@lang');
 $router->post('/theme', 'HomeController@theme');
@@ -73,6 +75,7 @@ $router->group('/company', ['role:Company'], function (Router $r) {
     $r->post('/opportunities/{id}', 'Company\OpportunityController@update');
     $r->post('/opportunities/{id}/close', 'Company\OpportunityController@close');
     $r->get('/applicants', 'Company\ApplicationController@index');
+    $r->get('/applicants/{id}', 'Company\ApplicationController@show');
     $r->post('/applications/{id}/accept', 'Company\ApplicationController@accept');
     $r->post('/applications/{id}/reject', 'Company\ApplicationController@reject');
     $r->get('/daily-code', 'Company\DailyCodeController@index');
@@ -105,6 +108,8 @@ $router->group('/admin', ['role:Admin'], function (Router $r) {
     $r->get('/users', 'Admin\UserController@index');
     $r->post('/users/supervisor', 'Admin\UserController@createSupervisor');
     $r->post('/users/{id}/toggle', 'Admin\UserController@toggle');
+    $r->get('/users/{id}', 'Admin\UserController@show');
+    $r->get('/placements', 'Admin\AssignmentController@placements');
     $r->get('/companies', 'Admin\CompanyController@index');
     $r->post('/companies/{id}/approve', 'Admin\CompanyController@approve');
     $r->post('/companies/{id}/reject', 'Admin\CompanyController@reject');
@@ -115,6 +120,8 @@ $router->group('/admin', ['role:Admin'], function (Router $r) {
     $r->post('/assign', 'Admin\AssignmentController@assign');
     $r->post('/placements/{id}/complete', 'Admin\AssignmentController@complete');
     $r->get('/analytics', 'Admin\AnalyticsController@index');
+    $r->get('/report', 'Admin\SystemReportController@index');
+    $r->get('/report/csv', 'Admin\SystemReportController@csv');
     $r->get('/audit-logs', 'Admin\AuditLogController@index');
     $r->get('/contact-messages', 'Admin\ContactController@index');
 });

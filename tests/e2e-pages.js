@@ -4,9 +4,9 @@ const { chromium } = require('playwright');
 const BASE = process.env.BASE || 'http://127.0.0.1:8080';
 const roles = {
   Student: ['student@ecoop.test', 'Coop2026!', ['/student/dashboard', '/student/profile', '/student/opportunities', '/student/opportunities/1', '/student/applications', '/student/attendance', '/student/report', '/student/evaluations', '/messages', '/messages/1', '/notifications', '/settings']],
-  Company: ['company@ecoop.test', 'Coop2026!', ['/company/dashboard', '/company/profile', '/company/opportunities', '/company/opportunities/create', '/company/opportunities/1/edit', '/company/applicants', '/company/daily-code', '/company/trainees', '/messages', '/notifications', '/settings']],
+  Company: ['company@ecoop.test', 'Coop2026!', ['/company/dashboard', '/company/profile', '/company/opportunities', '/company/opportunities/create', '/company/opportunities/1/edit', '/company/applicants', '/company/applicants/1', '/company/daily-code', '/company/trainees', '/messages', '/notifications', '/settings']],
   Supervisor: ['supervisor@ecoop.test', 'Coop2026!', ['/supervisor/dashboard', '/supervisor/students', '/supervisor/students/1', '/supervisor/students/4', '/supervisor/attendance', '/supervisor/reports', '/supervisor/evaluate/4', '/supervisor/export', '/messages', '/messages/1', '/notifications', '/settings']],
-  Admin: ['admin@ecoop.test', 'Coop2026!', ['/admin/dashboard', '/admin/users', '/admin/companies', '/admin/opportunities', '/admin/assign', '/admin/analytics', '/admin/audit-logs', '/admin/contact-messages', '/messages', '/notifications', '/settings']],
+  Admin: ['admin@ecoop.test', 'Coop2026!', ['/admin/dashboard', '/admin/users', '/admin/companies', '/admin/opportunities', '/admin/assign', '/admin/analytics', '/admin/report', '/admin/placements', '/admin/users/2', '/admin/users/5', '/admin/audit-logs', '/admin/contact-messages', '/messages', '/notifications', '/settings']],
 };
 const forbidden = { Student: '/admin/dashboard', Company: '/student/dashboard', Supervisor: '/company/applicants', Admin: '/student/attendance' };
 (async () => {

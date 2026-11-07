@@ -8,7 +8,7 @@
 <div class="co-table-wrap table-responsive"><table class="co-table">
   <thead><tr><th><?= e(__('auth.full_name')) ?></th><th><?= e(__('auth.email')) ?></th><th><?= e(__('admin.role')) ?></th><th><?= e(__('admin.last_login')) ?></th><th><?= e(__('common.status')) ?></th><th></th></tr></thead>
   <tbody><?php foreach ($users as $u): ?>
-    <tr><td><strong><?= e($u['FullName']) ?></strong></td><td dir="ltr"><?= e($u['Email']) ?></td><td><?= e(__('role.' . $u['Role'])) ?></td><td class="num"><?= e(fmt_date($u['LastLoginAt'], true)) ?></td>
+    <tr><td><a href="<?= url('/admin/users/' . $u['UserID']) ?>"><strong><?= e($u['FullName']) ?></strong></a></td><td dir="ltr"><?= e($u['Email']) ?></td><td><?= e(__('role.' . $u['Role'])) ?></td><td class="num"><?= e(fmt_date($u['LastLoginAt'], true)) ?></td>
       <td><span class="co-badge<?= $u['AccountStatus'] === 'Active' ? ' co-badge--mint' : '' ?>"><?= e(__('status.' . $u['AccountStatus'])) ?></span></td>
       <td class="app-actions"><?php if ((int) $u['UserID'] !== Auth::id()): ?><form method="post" action="<?= url('/admin/users/' . $u['UserID'] . '/toggle') ?>" data-confirm="<?= e(__($u['AccountStatus'] === 'Active' ? 'admin.suspend_confirm' : 'admin.activate_confirm', ['name' => $u['FullName']])) ?>"><?= csrf_field() ?>
         <button class="co-btn co-btn--sm <?= $u['AccountStatus'] === 'Active' ? 'co-btn--danger-ghost' : 'co-btn--soft' ?>"><?= e(__($u['AccountStatus'] === 'Active' ? 'admin.suspend' : 'admin.activate')) ?></button></form><?php else: ?><span class="co-caption"><?= e(__('admin.you')) ?></span><?php endif; ?></td></tr>

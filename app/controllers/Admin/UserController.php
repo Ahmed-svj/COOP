@@ -27,6 +27,32 @@ class UserController extends Base
         $this->view('admin/users', compact('users', 'role', 'q', 'total', 'page', 'per'));
     }
 
+    public function show(int $id): void
+    {
+        $u = \User::find($id);
+        if (!$u) {
+            abort(404);
+        }
+        $profile = match ($u['Role']) {
+            'Student'    => Database::one(
+                "SELECT s.*, o.Title, c.CompanyName, p.StartDate, p.EndDate, p.Status AS PlacementStatus,
+                        (SELECT u2.FullName FROM academic_supervisors sp JOIN users u2 ON u2.UserID = sp.UserID WHERE sp.SupervisorID = s.SupervisorID) AS SupervisorName,
+                        (SELECT COUNT(*) FROM applications a WHERE a.StudentID = s.StudentID) AS Apps,
+                        (SELECT COUNT(*) FROM attendance_records ar WHERE ar.StudentID = s.StudentID AND ar.ApprovalStatus = 'Approved') AS Days
+                   FROM students s LEFT JOIN training_placements p ON p.PlacementID = s.PlacementID
+                   LEFT JOIN coop_opportunities o ON o.OpportunityID = p.OpportunityID LEFT JOIN companies c ON c.CompanyID = o.CompanyID
+                  WHERE s.UserID = ?", [$id]),
+            'Company'    => Database::one(
+                "SELECT c.*, (SELECT COUNT(*) FROM coop_opportunities o WHERE o.CompanyID = c.CompanyID) AS Opps,
+                        (SELECT COUNT(*) FROM students s JOIN training_placements p ON p.PlacementID = s.PlacementID JOIN coop_opportunities o ON o.OpportunityID = p.OpportunityID WHERE o.CompanyID = c.CompanyID) AS Trainees
+                   FROM companies c WHERE c.UserID = ?", [$id]),
+            'Supervisor' => Database::one('SELECT l.*, sp.UserID FROM v_supervisor_load l JOIN academic_supervisors sp ON sp.SupervisorID = l.SupervisorID WHERE sp.UserID = ?', [$id]),
+            default      => null,
+        };
+        $logs = Database::all('SELECT * FROM audit_logs WHERE UserID = ? ORDER BY AuditLogID DESC LIMIT 10', [$id]);
+        $this->view('admin/user-details', compact('u', 'profile', 'logs'));
+    }
+
     public function toggle(int $id): void
     {
         if ($id === Auth::id()) {

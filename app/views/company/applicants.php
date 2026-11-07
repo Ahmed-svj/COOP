@@ -10,7 +10,7 @@
 <div class="co-card"><div class="co-list">
 <?php foreach ($items as $a): ?>
   <div class="co-row app-row-wrap"><span class="co-row__media"><?= e(initials($a['FullName'])) ?></span>
-    <div class="co-row__text"><span class="co-row__title"><?= e($a['FullName']) ?></span>
+    <div class="co-row__text"><a class="co-row__title" href="<?= url('/company/applicants/' . $a['ApplicationID']) ?>"><?= e($a['FullName']) ?></a>
       <span class="co-row__sub"><?= e($a['Major']) ?> · <?= e(__('profile.gpa')) ?> <?= e($a['GPA']) ?> · <?= e($a['Title']) ?> · <?= e(fmt_date($a['SubmittedDate'])) ?></span>
       <span class="co-row__sub" dir="ltr"><?= e($a['Email']) ?> · <?= e($a['Phone']) ?></span></div>
     <div class="co-row__actions">

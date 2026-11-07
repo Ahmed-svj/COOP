@@ -27,23 +27,46 @@ sabic = q("SELECT CompanyID FROM companies WHERE CompanyName='Nova Systems'")[0]
 faisal = q("SELECT SupervisorID FROM academic_supervisors sp JOIN users u USING(UserID) WHERE u.Email='supervisor@ecoop.test'")[0]
 convs = lambda r: q(f"SELECT ConversationID FROM conversation_members WHERE UserID={uid[r]}")
 
+def applicant_variants():
+    opps = q(f"SELECT OpportunityID FROM coop_opportunities WHERE CompanyID={sabic}")
+    out = [f'opportunity={o}' for o in opps]
+    for st in ('Pending', 'Accepted', 'Rejected', 'Withdrawn'):
+        out.append(f'status={st}')
+        out += [f'opportunity={o}&status={st}' for o in opps]
+    return out
+
+def norm(href):
+    """Path plus a canonical query (empty / zero values dropped, keys sorted)."""
+    u = urllib.parse.urlparse(href)
+    path = u.path.rstrip('/') or '/'
+    qs = sorted((k, v) for k, v in urllib.parse.parse_qsl(u.query) if v not in ('', '0') and k in ('status', 'role', 'opportunity'))
+    return path + ('?' + urllib.parse.urlencode(qs) if qs else '')
+
 PAGES = {
-    'public': ['/', '/about', '/contact', '/login', '/register/student', '/register/company', '/forgot-password', '/page-not-found'],
+    'public': ['/', '/about', '/faq', '/privacy', '/contact', '/login', '/register/student', '/register/company', '/forgot-password', '/page-not-found'],
     'student': ['/student/dashboard', '/student/profile', '/student/opportunities',
                 *[f'/student/opportunities/{i}' for i in q('SELECT OpportunityID FROM v_public_opportunities')],
-                '/student/applications', '/student/attendance', '/student/report', '/student/evaluations',
+                '/student/applications', *[f'/student/applications?status={st}' for st in ('Pending', 'Accepted', 'Rejected', 'Withdrawn')],
+                '/student/attendance', '/student/report', '/student/evaluations',
                 '/messages', *[f'/messages/{c}' for c in convs('student')], '/notifications', '/settings'],
     'company': ['/company/dashboard', '/company/profile', '/company/opportunities', '/company/opportunities/create',
                 *[f'/company/opportunities/{i}/edit' for i in q(f"SELECT OpportunityID FROM coop_opportunities WHERE CompanyID={sabic} AND Status<>'Closed'")],
-                '/company/applicants', '/company/daily-code', '/company/trainees',
+                '/company/applicants', *[f'/company/applicants?{qs}' for qs in applicant_variants()],
+                *[f'/company/applicants/{a}' for a in q(f"SELECT a.ApplicationID FROM applications a JOIN coop_opportunities o USING(OpportunityID) WHERE o.CompanyID={sabic}")],
+                '/company/daily-code', '/company/trainees',
                 *[f'/company/evaluate/{s}' for s in q(f"SELECT s.StudentID FROM students s JOIN training_placements p USING(PlacementID) JOIN coop_opportunities o USING(OpportunityID) WHERE o.CompanyID={sabic}")],
                 '/messages', *[f'/messages/{c}' for c in convs('company')], '/notifications', '/settings'],
     'supervisor': ['/supervisor/dashboard', '/supervisor/students',
                    *[f'/supervisor/students/{s}' for s in q(f'SELECT StudentID FROM students WHERE SupervisorID={faisal}')],
-                   '/supervisor/attendance', '/supervisor/reports',
+                   '/supervisor/attendance', *[f'/supervisor/attendance?status={st}' for st in ('Pending', 'Approved', 'Rejected')], '/supervisor/reports',
                    *[f'/supervisor/evaluate/{s}' for s in q(f'SELECT StudentID FROM students WHERE SupervisorID={faisal}')],
                    '/supervisor/export', '/messages', *[f'/messages/{c}' for c in convs('supervisor')], '/notifications', '/settings'],
-    'admin': ['/admin/dashboard', '/admin/users', '/admin/companies', '/admin/opportunities', '/admin/assign', '/admin/analytics',
+    'admin': ['/admin/dashboard', '/admin/users', *[f'/admin/users?role={r}' for r in ('Student', 'Company', 'Supervisor', 'Admin')],
+              *[f'/admin/users/{u}' for u in q('SELECT UserID FROM users')],
+              '/admin/companies', *[f'/admin/companies?status={st}' for st in ('Pending', 'Approved', 'Rejected')],
+              '/admin/opportunities', *[f'/admin/opportunities?status={urllib.parse.quote_plus(st)}' for st in ('Pending Approval', 'Approved', 'Rejected', 'Closed')],
+              '/admin/placements', '/admin/placements?status=Active', '/admin/placements?status=Completed',
+              '/admin/assign', '/admin/analytics', '/admin/report',
               '/admin/audit-logs', '/admin/contact-messages', '/messages', *[f'/messages/{c}' for c in convs('admin')], '/notifications', '/settings'],
 }
 TITLES = {'student': 'Student', 'company': 'Company', 'supervisor': 'Supervisor', 'admin': 'Admin'}
@@ -53,7 +76,7 @@ def sid(role, path, lang=None):
     base = (role + '-' + (re.sub(r'[^a-z0-9]+', '-', path.lower()).strip('-') or 'home')).replace('public-', '', 1)
     return base + ('-ar' if (lang or LANG) == 'ar' else '')
 
-KNOWN = {(r, p): (r, p) for r, ps in PAGES.items() for p in ps}
+KNOWN = {(r, norm(p)): p for r, ps in PAGES.items() for p in ps}
 
 def resolve(role, href):
     if href.startswith('#') or href.startswith('mailto:'):
@@ -69,9 +92,11 @@ def resolve(role, href):
     if re.fullmatch(r'/notifications/\d+/open', path):
         # Follow the notification to its target page if we exported it.
         return 'NOTIF'
-    for r in (role, 'public'):
-        if (r, path) in KNOWN:
-            return sid(r, path)
+    full = norm(href)
+    for key in (full, path):
+        for r in (role, 'public'):
+            if (r, key) in KNOWN:
+                return sid(r, KNOWN[(r, key)])
     m = re.fullmatch(r'/(student|company|supervisor|admin)/.*', path)
     if m and (m.group(1), f'/{m.group(1)}/dashboard') in KNOWN:
         return sid(m.group(1), f'/{m.group(1)}/dashboard')
@@ -144,7 +169,16 @@ for LANG, role, path in LANG_ITEMS:
                 target = page_id
             return f'href="#{target}"'
         body = re.sub(r'href="(/[^"]*)"', link, body)
-        body = re.sub(r'\baction="([^"]*)"', lambda m: f'action="#" data-action="{m.group(1)}"', body)
+        def act(m, role=role):
+            tgt = resolve(role, m.group(1))
+            extra = f' data-search-target="{tgt}"' if isinstance(tgt, str) and tgt else ''
+            return f'action="#" data-action="{m.group(1)}"{extra}'
+        body = re.sub(r'\baction="([^"]*)"', act, body)
+        def opt_targets(m, role=role, path=path):
+            sel = m.group(0)
+            base = path.split('?')[0]
+            return re.sub(r'<option value="(\d+)"', lambda o: f'<option value="{o.group(1)}" data-target="{resolve(role, base + "?opportunity=" + o.group(1)) or resolve(role, base)}"', sel)
+        body = re.sub(r'<select[^>]*data-autosubmit-select.*?</select>', opt_targets, body, flags=re.S)
         body = body.replace(' id="main"', '')
         dir_ = re.search(r'dir="(\w+)"', attrs).group(1)
         theme = re.search(r'data-theme="(\w+)"', attrs).group(1)
@@ -153,6 +187,8 @@ for LANG, role, path in LANG_ITEMS:
 for (r, l), op in openers.items():
     if l == 'ar':
         op.open(BASE + '/lang/en')
+
+LANGS = {l: json.loads(subprocess.run(['php', '-r', f'echo json_encode(require "{ROOT}/app/lang/{l}.php");'], capture_output=True, text=True, check=True).stdout) for l in ('en', 'ar')}
 
 css = ''.join((PUB / 'assets' / p).read_text() for p in
               ['vendor/bootstrap/bootstrap.min.css', 'css/main.css', 'css/dashboard.css', 'css/auth.css', 'css/rtl.css'])
@@ -201,8 +237,10 @@ router = r'''
       useFile(f.querySelector('input[type=file]').files[0], f.closest('section.page').dataset.role);
     } else if (/register\/(student|company)$/.test(action)) {
       location.hash = '#' + (action.endsWith('student') ? DASH.student : DASH.company) + sfx;
+    } else if ((f.getAttribute('method') || '').toLowerCase() === 'get') {
+      window.COOP_SEARCH(f, action);
     } else {
-      toast(sfx ? 'معاينة فقط — شغّل موقع PHP لحفظ التغييرات.' : 'Preview only — run the PHP site to save changes.');
+      window.COOP_SIMULATE(f, action);
     }
   }, true);
   // Light / dark theme for the whole preview (remembered in this browser). Dark is the default.
@@ -213,6 +251,11 @@ router = r'''
     window.dispatchEvent(new Event('resize'));
   }
   try { const saved = localStorage.getItem('coop-theme'); if (saved) setTheme(saved); } catch (e) {}
+  window.COOP_SET_THEME = setTheme;
+  document.addEventListener('change', (e) => {
+    const s = e.target.closest('select[data-autosubmit-select]'); if (!s) return;
+    const tgt = s.options[s.selectedIndex].dataset.target; if (tgt) location.hash = '#' + tgt + (location.hash.endsWith('-ar') && !tgt.endsWith('-ar') ? '' : '');
+  });
 
   // Profile photo: press the avatar, pick an image, it shows everywhere for that role (saved in this browser).
   const avatarKey = (role) => 'coop-avatar-' + role;
@@ -281,6 +324,8 @@ document.addEventListener('click', (e) => {{
   const url = URL.createObjectURL(new Blob([bytes], {{ type: 'application/pdf' }}));
   const t = document.createElement('a'); t.href = url; t.download = a.getAttribute('download'); t.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }});</script>
+<script>window.COOP_LANG = {json.dumps(LANGS, ensure_ascii=False)};</script>
+<script>{(ROOT / 'tools/preview_actions.js').read_text()}</script>
 <script>{router}</script>
 <script>{charts}</script>
 </body>

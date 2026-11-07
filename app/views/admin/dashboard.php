@@ -1,5 +1,6 @@
 <?php $title = __('nav.home'); $u = Auth::user(); $placedPct = (int) round($k['placed'] * 100 / max(1, $k['students'])); ?>
 <p class="co-greet"><?= e(greeting()) ?></p>
+<div class="d-flex justify-content-between align-items-end flex-wrap gap-2"><div></div><a class="co-btn co-btn--soft co-btn--sm" href="<?= url('/admin/report') ?>"><?= icon('doc', 'co-ico--sm') ?><?= e(__('nav.system_report')) ?></a></div>
 <p class="co-name"><bdi><?= e(short_name($u['FullName'])) ?></bdi></p>
 <div class="app-kpis">
   <?php foreach ([['pending_companies', 'building', 'admin.k_companies', '/admin/companies', 'amber'], ['pending_opportunities', 'brief', 'admin.k_opps', '/admin/opportunities', 'lavender'], ['active_placements', 'cap', 'admin.k_active', '/admin/assign', 'mint'], ['unassigned', 'assign', 'admin.k_unassigned', '/admin/assign', '']] as [$key, $ic, $lbl, $href, $tone]): ?>

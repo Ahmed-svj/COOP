@@ -24,6 +24,16 @@ class HomeController extends Controller
         $this->view('home/about', [], 'main');
     }
 
+    public function faq(): void
+    {
+        $this->view('home/faq', [], 'main');
+    }
+
+    public function privacy(): void
+    {
+        $this->view('home/privacy', [], 'main');
+    }
+
     public function contact(): void
     {
         $this->view('home/contact', [], 'main');

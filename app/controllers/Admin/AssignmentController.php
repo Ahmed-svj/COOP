@@ -44,6 +44,25 @@ class AssignmentController extends Base
         $this->back();
     }
 
+    /** All training placements with their trainees and progress. */
+    public function placements(): void
+    {
+        $status = in_array($_GET['status'] ?? '', ['Active', 'Completed'], true) ? $_GET['status'] : '';
+        $items = Database::all(
+            "SELECT p.*, o.Title, o.City, o.Capacity, c.CompanyName,
+                    (SELECT COUNT(*) FROM students s WHERE s.PlacementID = p.PlacementID) AS Trainees,
+                    (SELECT COUNT(*) FROM students s WHERE s.PlacementID = p.PlacementID AND s.SupervisorID IS NULL) AS NoSupervisor,
+                    (SELECT COUNT(*) FROM daily_codes dc WHERE dc.PlacementID = p.PlacementID) AS CodeDays,
+                    (SELECT COUNT(*) FROM attendance_records ar WHERE ar.PlacementID = p.PlacementID AND ar.ApprovalStatus = 'Approved') AS ApprovedDays
+               FROM training_placements p JOIN coop_opportunities o ON o.OpportunityID = p.OpportunityID JOIN companies c ON c.CompanyID = o.CompanyID
+              " . ($status ? 'WHERE p.Status = ?' : '') . ' ORDER BY p.Status, p.EndDate', $status ? [$status] : []);
+        foreach ($items as &$p) {
+            $p['students'] = Database::all('SELECT s.StudentID, u.FullName, u.UserID FROM students s JOIN users u ON u.UserID = s.UserID WHERE s.PlacementID = ? ORDER BY u.FullName', [$p['PlacementID']]);
+        }
+        unset($p);
+        $this->view('admin/placements', compact('items', 'status'));
+    }
+
     public function complete(int $id): void
     {
         \PlacementService::complete($id);

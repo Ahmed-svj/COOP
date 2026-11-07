@@ -17,6 +17,13 @@ Build the COOP Cooperative Training Management System website described in `COOP
 - **Demo accounts:** every account uses the password `Coop2026!`: `admin@ecoop.test`, `supervisor@ecoop.test` (Dr. Khalid Omar), `company@ecoop.test` (Nova Systems), `student@ecoop.test` (placed in Backend Developer Intern) and `newstudent@ecoop.test` (no placement).
 - **Profile photo and language:** pressing the avatar opens a picker and the photo updates everywhere at once; an العربية / English button sits in every dashboard's top bar. Both also work in the HTML file. Tested by `tests/e2e-avatar-lang.js` (10 of 10 pass).
 - **Bug fixed:** going back to the previous page ignored the port number, so on addresses like `127.0.0.1:8080` the language switch and other actions went to the home page.
+- **New pages:**
+  - Public: FAQ and Privacy.
+  - Company: Applicant profile.
+  - Admin: User details, Placements, and the **System report**. The report has a to-do list, numbers for every part of the workflow, security and system health, and Print and CSV export.
+  - Company applicant search now works.
+- **Every link and button checked:** `tests/e2e-links.js` crawled 113 pages, 149 distinct links and 840 buttons with no failures.
+- **The HTML preview acts like the real site:** it holds 230 pages (all filter tabs, English and Arabic), and its buttons and searches behave as on the server until reload. `tests/preview-buttons.js` passes 18 of 18.
 - **Dark mode is the default:** a sun/moon button in every top bar (and the public header) switches theme instantly and saves the choice. The HTML preview remembers it in the browser.
 - **Change email:** on the Settings page. It requires the current password, the new address must be unused, and students must stay on a college domain (`STUDENT_EMAIL_DOMAIN=jic.edu.sa,ecoop.test`). The old address is notified.
 - **Arabic option removed from Settings:** language is switched only with the top-bar button, and saving Settings no longer resets it. Tested by `tests/e2e-settings.js` (18 of 18 pass).

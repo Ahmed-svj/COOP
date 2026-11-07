@@ -34,7 +34,7 @@
       <div class="co-card__head"><span class="co-tile"><?= icon('users') ?></span><h2 class="co-card__title"><?= e(__('company.new_applicants')) ?></h2><a href="<?= url('/company/applicants') ?>" aria-label="<?= e(__('nav.applicants')) ?>"><?= icon('chev', 'app-flip') ?></a></div>
       <?php if (!$applicants): ?><?= View::partial('partials/empty', ['icon' => 'users', 'text' => __('company.no_applicants')]) ?>
       <?php else: ?><div class="co-list"><?php foreach ($applicants as $a): ?>
-        <a class="co-row app-row-link" href="<?= url('/company/applicants', ['opportunity' => $a['OpportunityID']]) ?>"><span class="co-row__media"><?= e(initials($a['FullName'])) ?></span>
+        <a class="co-row app-row-link" href="<?= url('/company/applicants/' . $a['ApplicationID']) ?>"><span class="co-row__media"><?= e(initials($a['FullName'])) ?></span>
           <div class="co-row__text"><span class="co-row__title"><?= e($a['FullName']) ?></span><span class="co-row__sub"><?= e($a['Major']) ?> · <?= e(__('profile.gpa')) ?> <?= e($a['GPA']) ?> · <?= e($a['Title']) ?></span></div><?= status_badge('Pending') ?></a>
       <?php endforeach; ?></div><?php endif; ?>
     </section>

@@ -8,6 +8,5 @@
         <p class="co-caption steps__text"><?= e(__('about.' . $r)) ?></p></div></div>
     <?php endforeach; ?>
   </div>
-  <h2 class="section-title mt-5"><?= e(__('about.privacy_t')) ?></h2>
-  <p id="privacy" class="steps__text"><?= e(__('about.privacy')) ?></p>
+  <p class="mt-4"><a class="co-btn co-btn--soft" href="<?= url('/privacy') ?>"><?= icon('shield', 'co-ico--sm') ?><?= e(__('about.privacy_t')) ?></a> <a class="co-btn co-btn--soft" href="<?= url('/faq') ?>"><?= icon('info', 'co-ico--sm') ?><?= e(__('nav.faq')) ?></a></p>
 </section>

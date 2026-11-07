@@ -24,6 +24,7 @@
     <nav class="site-nav" aria-label="<?= e(__('a11y.main_nav')) ?>">
       <a href="<?= url('/') ?>"<?= is_active_path('/') ? ' aria-current="page"' : '' ?>><?= e(__('nav.home')) ?></a>
       <a href="<?= url('/about') ?>"<?= is_active_path('/about') ? ' aria-current="page"' : '' ?>><?= e(__('nav.about')) ?></a>
+      <a href="<?= url('/faq') ?>"<?= is_active_path('/faq') ? ' aria-current="page"' : '' ?>><?= e(__('nav.faq')) ?></a>
       <a href="<?= url('/contact') ?>"<?= is_active_path('/contact') ? ' aria-current="page"' : '' ?>><?= e(__('nav.contact')) ?></a>
     </nav>
     <div class="site-header__end">
@@ -45,7 +46,7 @@
 <footer class="site-footer">
   <div class="site-wrap site-footer__inner">
     <span class="site-footer__brand"><img src="<?= asset('img/logo-mark.png') ?>" alt="" width="28" height="28">© <?= date('Y') ?> COOP · <?= e(__('footer.college')) ?></span>
-    <span><a href="<?= url('/about') ?>"><?= e(__('nav.about')) ?></a> · <a href="<?= url('/contact') ?>"><?= e(__('nav.contact')) ?></a></span>
+    <span><a href="<?= url('/about') ?>"><?= e(__('nav.about')) ?></a> · <a href="<?= url('/faq') ?>"><?= e(__('nav.faq')) ?></a> · <a href="<?= url('/privacy') ?>"><?= e(__('nav.privacy')) ?></a> · <a href="<?= url('/contact') ?>"><?= e(__('nav.contact')) ?></a></span>
   </div>
 </footer>
 <script src="<?= asset('vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>

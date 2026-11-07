@@ -58,6 +58,22 @@ mysql -u root < database/schema.sql && php database/seed.php && node tests/e2e-f
 ```
 Runs 39 checks covering the whole workflow and the security checklist in guide §3.9.
 
+## Pages added in the latest round
+
+- **Public:** FAQ (`/faq`, by role) and Privacy (`/privacy`, a full notice), linked from the header and footer.
+- **Company:** Applicant profile (`/company/applicants/{id}`) with major, GPA, contacts, CV, seat count, Accept/Reject and a message button. Applicant search now works.
+- **Admin:**
+  - User details (`/admin/users/{id}`): account, role details and recent activity, with Suspend/Activate.
+  - Placements (`/admin/placements`): every placement with progress, trainees and Mark completed.
+  - **System report** (`/admin/report`), with Print and Download CSV. It covers:
+    - headline numbers and a "Needs attention" to-do list
+    - top companies and supervisor load
+    - users, companies, opportunities, applications, placements, attendance, reports and evaluations
+    - security (failed logins, lockouts, blocked access)
+    - the system (PHP and MySQL versions, database and file size, last backup, scheduler, mail, debug, HTTPS)
+
+`tests/e2e-links.js` crawls every page for every role. It checks that each link opens and that every button has an action.
+
 ## What is implemented
 
 Every use case from UC-01 to UC-23, plus:
@@ -94,7 +110,8 @@ Every use case from UC-01 to UC-23, plus:
   - `logo-mark.png`: the hexagon mark, used in the dashboard sidebar and as the app icon
   - `favicon.png`: the browser-tab icon
 - **`coop-website.html`** is a single self-contained file holding **every page of the site for every role, in English and Arabic** (122 pages). It opens in any browser without PHP.
-  - Every link leads to a real page, and CV and report links download the embedded PDFs.
+  - Every link leads to a real page, including every filter tab (Pending, Accepted, …). CV and report links download the embedded PDFs.
+  - **Buttons act like the real site** until you reload. Examples: Accept and Reject, Approve, Suspend, Assign, Generate code, Check in, Apply, Send message, Mark all read, Save, and Contact. Search boxes and filters work too. `tests/preview-buttons.js` checks this.
   - To see a role, log in on the preview's login page with that role's demo email. Log in, Log out and Register move between pages; other forms show a "preview only" message.
 - **Rebuild it after changes** while the PHP server is running with demo data:
   ```bash
@@ -122,7 +139,7 @@ Every use case from UC-01 to UC-23, plus:
 2. `.devcontainer/` starts PHP 8.3 and MySQL 8.0, imports `schema.sql`, loads the demo data and serves the site on port 8080.
 3. The site opens in your browser. Log in with any demo account; the password is `Coop2026!`.
 
-**Tests (GitHub Actions).** `.github/workflows/tests.yml` runs the four browser test suites against a real MySQL 8 on every push.
+**Tests (GitHub Actions).** `.github/workflows/tests.yml` runs the six browser test suites against a real MySQL 8 on every push.
 
 After changing pages, rebuild the preview while the site is running, then commit `docs/index.html`:
 
