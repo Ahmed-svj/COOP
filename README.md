@@ -133,6 +133,12 @@ Every use case from UC-01 to UC-23, plus:
 
 ## Run it on GitHub
 
+- **Repository:** https://github.com/Ahmed-svj/COOP
+- **Live preview:** https://ahmed-svj.github.io/COOP/. Pages publishes the repository root, and `index.html` forwards to `docs/`.
+- **Tests:** https://github.com/Ahmed-svj/COOP/actions
+
+### Details
+
 **Live preview (GitHub Pages).** `docs/index.html` is the static preview of every page in English and Arabic.
 1. After pushing, open the repository's **Settings → Pages → Source** and choose **GitHub Actions**. This is needed only once.
 2. The **Deploy preview to GitHub Pages** workflow publishes it at `https://<user>.github.io/<repo>/`.

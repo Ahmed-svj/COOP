@@ -39,7 +39,13 @@ Build the COOP Cooperative Training Management System website described in `COOP
 - **Change email:** on the Settings page. It requires the current password, the new address must be unused, and students must stay on a college domain (`STUDENT_EMAIL_DOMAIN=jic.edu.sa,ecoop.test`). The old address is notified.
 - **Arabic option removed from Settings:** language is switched only with the top-bar button, and saving Settings no longer resets it. Tested by `tests/e2e-settings.js` (18 of 18 pass).
 - **Student dashboard:** the Settings card was removed and replaced with the latest notifications. Settings stays on its own page.
-- **Not deployed.** It is not on a public URL and not in a git repository. A zip of the project is at `/home/user/coop/coop-website.zip`.
+- **On GitHub:**
+  - Repository: https://github.com/Ahmed-svj/COOP (public, branch `main`).
+  - Live preview: https://ahmed-svj.github.io/COOP/ (Pages from the repository root; the root `index.html` opens `docs/`).
+  - The Tests workflow passes on GitHub Actions.
+  - Two problems were found and fixed on the first push: the `vendor/` ignore rule had left out Bootstrap and Chart.js, and an XSS test read the page in a way that depends on the Chromium version.
+- **Not deployed as a PHP server:** use Codespaces (`.devcontainer/`) or your own server. Codespaces has not been run yet.
+- **Previously not deployed.** It is not on a public URL and not in a git repository. A zip of the project is at `/home/user/coop/coop-website.zip`.
 
 ## 3. Active Files
 
