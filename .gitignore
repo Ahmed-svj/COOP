@@ -8,3 +8,4 @@ storage/backups/*
 !storage/backups/.gitkeep
 coop-website.zip
 node_modules/
+dist/
