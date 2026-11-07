@@ -203,3 +203,20 @@ function safe_referer(string $fallback = '/'): string
     $refHost = ($p['host'] ?? '') . (isset($p['port']) ? ':' . $p['port'] : '');
     return $refHost === ($_SERVER['HTTP_HOST'] ?? '') ? $ref : $fallback;
 }
+
+
+/** Current colour theme: the user's saved choice, else this visit's choice, else dark (the default). */
+function current_theme(): string
+{
+    if (Auth::check()) {
+        return pref('dark_mode', true) ? 'dark' : 'light';
+    }
+    $t = $_SESSION['theme'] ?? 'dark';
+    return $t === 'light' ? 'light' : 'dark';
+}
+
+/** Institutional email domains students may use (STUDENT_EMAIL_DOMAIN, comma-separated). */
+function student_domains(): array
+{
+    return array_values(array_filter(array_map('trim', explode(',', strtolower((string) config('student_email_domain'))))));
+}

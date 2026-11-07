@@ -171,8 +171,8 @@ return [
     'msg.sub' => 'تواصل مع مشرفك أو الشركة أو مكتب التدريب.', 'msg.new' => 'ابدأ محادثة مع…', 'msg.start' => 'ابدأ', 'msg.none' => 'لا توجد محادثات بعد.',
     'msg.empty' => 'لا توجد رسائل بعد', 'msg.pick' => 'اختر محادثة', 'msg.write' => 'اكتب رسالة…', 'msg.send' => 'إرسال',
 
-    'settings.sub' => 'اللغة والإشعارات وكلمة المرور والصورة.', 'settings.prefs' => 'التفضيلات', 'settings.email' => 'أرسل لي التحديثات بالبريد',
-    'settings.email_d' => 'تغيّر الحالات والمراجعات', 'settings.arabic_d' => 'الواجهة العربية', 'settings.dark' => 'الوضع الداكن', 'settings.dark_d' => 'أريح للعين ليلًا',
+    'settings.sub' => 'البريد والإشعارات والمظهر وكلمة المرور والصورة.', 'settings.prefs' => 'التفضيلات', 'settings.email' => 'أرسل لي التحديثات بالبريد',
+    'settings.email_d' => 'تغيّر الحالات والمراجعات', 'settings.arabic_d' => 'الواجهة العربية', 'settings.dark' => 'الوضع الداكن', 'settings.dark_d' => 'مفعّل افتراضيًا · أوقفه للوضع الفاتح',
     'settings.saved' => 'تم حفظ الإعدادات.', 'settings.change_password' => 'تغيير كلمة المرور', 'settings.current_password' => 'كلمة المرور الحالية',
     'settings.wrong_password' => 'كلمة المرور الحالية غير صحيحة.', 'settings.password_changed' => 'تم تغيير كلمة المرور.', 'settings.avatar' => 'الصورة الشخصية',
     'settings.avatar_help' => 'JPG أو PNG أو WebP، حتى 2 ميغابايت.', 'settings.upload' => 'رفع الصورة', 'settings.avatar_saved' => 'تم تحديث الصورة.',
@@ -192,4 +192,8 @@ return [
     'err.t403' => 'لا تملك صلاحية الوصول لهذه الصفحة', 'err.d403' => 'هذه الصفحة تخص دورًا آخر أو شخصًا آخر.', 'err.t404' => 'الصفحة غير موجودة',
     'err.d404' => 'ربما نُقلت الصفحة أو أن الرابط غير صحيح.', 'err.t500' => 'حدث خطأ ما', 'err.d500' => 'تم تسجيل الخطأ. حاول مرة أخرى بعد قليل.', 'err.home' => 'الذهاب إلى لوحتي',
     'settings.change_photo' => 'تغيير الصورة', 'a11y.account_menu' => 'قائمة الحساب', 'settings.photo_uploading' => 'جارٍ رفع الصورة…',
+    'theme.toggle' => 'التبديل بين الوضع الفاتح والداكن', 'settings.change_email' => 'تغيير البريد الإلكتروني', 'settings.current_email' => 'البريد الحالي',
+    'settings.new_email' => 'البريد الجديد', 'settings.email_password_help' => 'أدخل كلمة المرور لتأكيد هويتك.',
+    'settings.email_changed' => 'تم تغيير البريد إلى :email. استخدمه في تسجيل الدخول القادم.', 'settings.email_changed_subject' => 'تم تغيير بريدك في COOP',
+    'settings.email_changed_body' => "تم تغيير البريد الإلكتروني لحسابك في COOP إلى :email.\n\nإن لم تقم بذلك فتواصل مع مكتب التدريب فورًا.",
 ];

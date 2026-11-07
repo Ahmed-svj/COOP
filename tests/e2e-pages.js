@@ -21,7 +21,7 @@ const forbidden = { Student: '/admin/dashboard', Company: '/student/dashboard', 
     await page.goto(BASE + '/login');
     await page.fill('#email', email);
     await page.fill('#password', pass);
-    await Promise.all([page.waitForNavigation(), page.click('button[type=submit]')]);
+    await Promise.all([page.waitForNavigation(), page.click('main button[type=submit]')]);
     for (const p of pages) {
       errs.length = 0;
       const r = await page.goto(BASE + p);

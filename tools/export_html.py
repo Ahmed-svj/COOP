@@ -194,6 +194,9 @@ router = r'''
         : /company|maaden|gulftech/.test(email) ? DASH.company : DASH.student) + sfx;
     } else if (action.endsWith('/logout')) {
       location.hash = '#login' + sfx;
+    } else if (action.endsWith('/theme')) {
+      setTheme(document.querySelector('section.page:not([hidden])').dataset.theme === 'dark' ? 'light' : 'dark');
+      f.querySelector('button')?.removeAttribute('disabled');
     } else if (action.endsWith('/settings/avatar')) {
       useFile(f.querySelector('input[type=file]').files[0], f.closest('section.page').dataset.role);
     } else if (/register\/(student|company)$/.test(action)) {
@@ -202,6 +205,15 @@ router = r'''
       toast(sfx ? 'معاينة فقط — شغّل موقع PHP لحفظ التغييرات.' : 'Preview only — run the PHP site to save changes.');
     }
   }, true);
+  // Light / dark theme for the whole preview (remembered in this browser). Dark is the default.
+  function setTheme(t) {
+    pages.forEach((p) => { p.dataset.theme = t; });
+    document.querySelectorAll('input[name=dark_mode]').forEach((i) => { i.checked = t === 'dark'; });
+    try { localStorage.setItem('coop-theme', t); } catch (e) {}
+    window.dispatchEvent(new Event('resize'));
+  }
+  try { const saved = localStorage.getItem('coop-theme'); if (saved) setTheme(saved); } catch (e) {}
+
   // Profile photo: press the avatar, pick an image, it shows everywhere for that role (saved in this browser).
   const avatarKey = (role) => 'coop-avatar-' + role;
   function applyAvatar(role, src) {

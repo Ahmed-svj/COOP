@@ -8,7 +8,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); 
   const pg = await (await b.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
   const errs = []; pg.on('pageerror', (e) => errs.push(String(e)));
   await pg.goto(B + '/login'); await pg.fill('#email', 'newstudent@ecoop.test'); await pg.fill('#password', 'Coop2026!');
-  await Promise.all([pg.waitForNavigation(), pg.click('button[type=submit]')]);
+  await Promise.all([pg.waitForNavigation(), pg.click('main button[type=submit]')]);
   ok(await pg.locator('.app-userchip span.co-avatar[data-me]').count() === 1, 'starts with initials avatar');
   const [chooser] = await Promise.all([pg.waitForEvent('filechooser'), pg.click('.app-userchip [data-avatar-pick]')]);
   ok(true, 'pressing the avatar opens the photo picker');

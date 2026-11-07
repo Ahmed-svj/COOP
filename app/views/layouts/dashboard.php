@@ -2,7 +2,7 @@
 $user = Auth::user();
 $role = $user['Role'];
 $lang = Lang::current();
-$dark = pref('dark_mode');
+$dark = current_theme() === 'dark';
 $unread = Notification::unreadCount((int) $user['UserID']);
 $profile = Auth::profile();
 $location = match ($role) {
@@ -54,6 +54,7 @@ $searchAction = match ($role) {
         <button type="submit" class="app-search__btn" aria-label="<?= e(__('search.label')) ?>"><?= icon('sliders') ?></button>
       </form>
       <div class="app-topbar__end">
+        <form method="post" action="<?= url('/theme') ?>" class="app-theme-form"><?= csrf_field() ?><button type="submit" class="co-iconbtn app-themebtn" data-theme-toggle aria-label="<?= e(__('theme.toggle')) ?>" title="<?= e(__('theme.toggle')) ?>"><span class="app-themebtn__moon"><?= icon('moon') ?></span><span class="app-themebtn__sun"><?= icon('sun') ?></span></button></form>
         <a class="co-btn co-btn--soft co-btn--sm app-langbtn" href="<?= url('/lang/' . ($lang === 'ar' ? 'en' : 'ar')) ?>" lang="<?= $lang === 'ar' ? 'en' : 'ar' ?>" aria-label="<?= $lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية' ?>"><?= icon('globe', 'co-ico--sm') ?><span><?= $lang === 'ar' ? 'English' : 'العربية' ?></span></a>
         <a class="co-iconbtn<?= $unread ? ' co-iconbtn--dot' : '' ?>" id="notif-bell" href="<?= url('/notifications') ?>"
            aria-label="<?= e(__('nav.notifications')) ?><?= $unread ? ', ' . $unread . ' ' . e(__('notif.unread')) : '' ?>"><?= icon('bell') ?></a>
@@ -92,6 +93,7 @@ $searchAction = match ($role) {
 <div class="app-toasts" id="toasts" aria-live="polite"></div>
 <script src="<?= asset('vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= asset('js/main.js') ?>"></script>
+<script src="<?= asset('js/theme.js') ?>"></script>
 <script src="<?= asset('js/validation.js') ?>"></script>
 <script src="<?= asset('js/notifications.js') ?>"></script>
 <script src="<?= asset('js/avatar.js') ?>"></script>

@@ -18,7 +18,10 @@
     if (input.required && !v) return t.required;
     if (!v) return '';
     if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return t.email;
-    if (input.dataset.domain && !v.toLowerCase().endsWith('@' + input.dataset.domain)) return t.domain + input.dataset.domain;
+    if (input.dataset.domain) {
+      const doms = input.dataset.domain.split(',');
+      if (!doms.some((d) => v.toLowerCase().endsWith('@' + d.trim()))) return t.domain + doms.join(', @');
+    }
     if (input.dataset.rule === 'phone' && !/^05[0-9]{8}$/.test(v)) return t.phone;
     if (input.dataset.rule === 'password' && !(v.length >= 8 && /[A-Za-z]/.test(v) && /[0-9]/.test(v))) return t.password;
     if (input.dataset.match) {

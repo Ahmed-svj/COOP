@@ -17,6 +17,9 @@ Build the COOP Cooperative Training Management System website described in `COOP
 - **Demo accounts:** every account uses the password `Coop2026!`: `admin@ecoop.test`, `supervisor@ecoop.test` (Dr. Khalid Omar), `company@ecoop.test` (Nova Systems), `student@ecoop.test` (placed in Backend Developer Intern) and `newstudent@ecoop.test` (no placement).
 - **Profile photo and language:** pressing the avatar opens a picker and the photo updates everywhere at once; an العربية / English button sits in every dashboard's top bar. Both also work in the HTML file. Tested by `tests/e2e-avatar-lang.js` (10 of 10 pass).
 - **Bug fixed:** going back to the previous page ignored the port number, so on addresses like `127.0.0.1:8080` the language switch and other actions went to the home page.
+- **Dark mode is the default:** a sun/moon button in every top bar (and the public header) switches theme instantly and saves the choice. The HTML preview remembers it in the browser.
+- **Change email:** on the Settings page. It requires the current password, the new address must be unused, and students must stay on a college domain (`STUDENT_EMAIL_DOMAIN=jic.edu.sa,ecoop.test`). The old address is notified.
+- **Arabic option removed from Settings:** language is switched only with the top-bar button, and saving Settings no longer resets it. Tested by `tests/e2e-settings.js` (18 of 18 pass).
 - **Student dashboard:** the Settings card was removed and replaced with the latest notifications. Settings stays on its own page.
 - **Not deployed.** It is not on a public URL and not in a git repository. A zip of the project is at `/home/user/coop/coop-website.zip`.
 

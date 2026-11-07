@@ -104,9 +104,11 @@ Every use case from UC-01 to UC-23, plus:
 ## Profile photo and language
 
 - **Change your photo:** press the round photo (or initials) at the top right of any dashboard page, or the large photo on the Settings page. Pick a JPG, PNG or WebP up to 2 MB. It shows everywhere straight away and uploads in the background. "Change photo" is also in the account menu.
-- **Switch language:** use the العربية / English button in the top bar. The same page reloads in the other language and the choice is remembered for your account.
+- **Dark mode:** the site opens in dark mode. The sun/moon button in the top bar (and in the public header) switches to light and back instantly. Signed-in users keep their choice on their account; visitors keep it for the visit. The Settings page has the same switch.
+- **Change email:** Settings → Change email. Enter the new address and your current password. The address must not already be in use, and students must use a college domain. The old address gets an email saying it changed.
+- **Switch language:** use the العربية / English button in the top bar (language is no longer a Settings option). The same page reloads in the other language and the choice is remembered for your account.
 - **In `coop-website.html`:** both work the same way. The chosen photo is saved in your browser only, because the file has no server.
-- **Note on registration:** the self-registration form still requires the college domain set by `STUDENT_EMAIL_DOMAIN` (default `jic.edu.sa`). Set it to `ecoop.test` in `.env` if you want new demo sign-ups to use that domain.
+- **Note on registration:** the self-registration form still requires a college domain from `STUDENT_EMAIL_DOMAIN` (comma-separated; default `jic.edu.sa,ecoop.test`).
 
 ## Run it on GitHub
 
@@ -120,7 +122,7 @@ Every use case from UC-01 to UC-23, plus:
 2. `.devcontainer/` starts PHP 8.3 and MySQL 8.0, imports `schema.sql`, loads the demo data and serves the site on port 8080.
 3. The site opens in your browser. Log in with any demo account; the password is `Coop2026!`.
 
-**Tests (GitHub Actions).** `.github/workflows/tests.yml` runs the three browser test suites against a real MySQL 8 on every push.
+**Tests (GitHub Actions).** `.github/workflows/tests.yml` runs the four browser test suites against a real MySQL 8 on every push.
 
 After changing pages, rebuild the preview while the site is running, then commit `docs/index.html`:
 

@@ -33,10 +33,10 @@ const submit = async (pg, selector) => Promise.all([pg.waitForNavigation(), pg.c
   await st.fill('#institutional_id', '449999'); await st.selectOption('#major', 'Cybersecurity');
   await st.fill('#phone', '0559999999'); await st.fill('#password', 'Passw0rd99'); await st.fill('#password_confirmation', 'Passw0rd99');
   await st.check('input[name=privacy]');
-  await st.click('button[type=submit]');
+  await st.click('main button[type=submit]');
   ok(await st.locator('.co-field--invalid').count() > 0 && st.url().includes('/register/student'), 'non-college email blocked on the client');
   await st.fill('#email', 'tester@jic.edu.sa');
-  await submit(st, 'button[type=submit]');
+  await submit(st, 'main button[type=submit]');
   ok(st.url().endsWith('/student/profile'), 'student registered and sent to profile');
   ok(!(await st.content()).includes('<script>alert(1)</script>'), 'XSS in name is escaped');
 
@@ -180,16 +180,16 @@ const submit = async (pg, selector) => Promise.all([pg.waitForNavigation(), pg.c
 
   // 16. Login lockout after 5 failures
   const lk = await session(browser);
-  for (let i = 0; i < 5; i++) { await lk.goto(B + '/login'); await lk.fill('#email', 'newstudent@ecoop.test'); await lk.fill('#password', 'wrongpass1'); await submit(lk, 'button[type=submit]'); }
-  await lk.fill('#email', 'newstudent@ecoop.test'); await lk.fill('#password', 'Coop2026!'); await submit(lk, 'button[type=submit]');
+  for (let i = 0; i < 5; i++) { await lk.goto(B + '/login'); await lk.fill('#email', 'newstudent@ecoop.test'); await lk.fill('#password', 'wrongpass1'); await submit(lk, 'main button[type=submit]'); }
+  await lk.fill('#email', 'newstudent@ecoop.test'); await lk.fill('#password', 'Coop2026!'); await submit(lk, 'main button[type=submit]');
   ok((await flashText(lk)).includes('Too many failed attempts'), 'account locked for 15 minutes after 5 failed logins (even with right password)');
 
   // 17. Password reset link (logged to mail.log) works once
   const rs = await session(browser);
-  await rs.goto(B + '/forgot-password'); await rs.fill('#email', 'abdullah@ecoop.test'); await submit(rs, 'button[type=submit]');
+  await rs.goto(B + '/forgot-password'); await rs.fill('#email', 'abdullah@ecoop.test'); await submit(rs, 'main button[type=submit]');
   const link = execSync("grep -o 'http[^ ]*reset-password?token=[a-f0-9]*' storage/logs/mail.log | tail -1").toString().trim();
   await rs.goto(link); await rs.fill('#password', 'NewPass123'); await rs.fill('#password_confirmation', 'NewPass123');
-  await submit(rs, 'button[type=submit]');
+  await submit(rs, 'main button[type=submit]');
   ok((await flashText(rs)).includes('Password changed'), 'password reset via emailed link');
   await rs.goto(link);
   ok(rs.url().includes('/forgot-password'), 'reset link cannot be reused');

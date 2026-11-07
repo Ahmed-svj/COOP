@@ -1,5 +1,5 @@
 <?php $lang = Lang::current(); ?><!doctype html>
-<html lang="<?= e($lang) ?>" dir="<?= e(Lang::dir()) ?>" data-theme="light">
+<html lang="<?= e($lang) ?>" dir="<?= e(Lang::dir()) ?>" data-theme="<?= e(current_theme()) ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,6 +27,7 @@
       <a href="<?= url('/contact') ?>"<?= is_active_path('/contact') ? ' aria-current="page"' : '' ?>><?= e(__('nav.contact')) ?></a>
     </nav>
     <div class="site-header__end">
+      <form method="post" action="<?= url('/theme') ?>" class="app-theme-form"><?= csrf_field() ?><button type="submit" class="co-iconbtn app-themebtn app-themebtn--sm" data-theme-toggle aria-label="<?= e(__('theme.toggle')) ?>" title="<?= e(__('theme.toggle')) ?>"><span class="app-themebtn__moon"><?= icon('moon') ?></span><span class="app-themebtn__sun"><?= icon('sun') ?></span></button></form>
       <a class="co-btn co-btn--soft co-btn--sm" href="<?= url('/lang/' . ($lang === 'ar' ? 'en' : 'ar')) ?>" lang="<?= $lang === 'ar' ? 'en' : 'ar' ?>"><?= icon('globe', 'co-ico--sm') ?><?= $lang === 'ar' ? 'English' : 'العربية' ?></a>
       <?php if (Auth::check()): ?>
         <a class="co-btn co-btn--primary co-btn--sm" href="<?= url('/dashboard') ?>"><?= e(__('nav.dashboard')) ?></a>
@@ -49,6 +50,7 @@
 </footer>
 <script src="<?= asset('vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= asset('js/main.js') ?>"></script>
+<script src="<?= asset('js/theme.js') ?>"></script>
 <script src="<?= asset('js/validation.js') ?>"></script>
 </body>
 </html>

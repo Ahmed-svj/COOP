@@ -211,8 +211,8 @@ return [
     'msg.none' => 'No conversations yet.', 'msg.empty' => 'No messages yet', 'msg.pick' => 'Choose a conversation', 'msg.write' => 'Write a message…', 'msg.send' => 'Send',
 
     // Settings
-    'settings.sub' => 'Language, notifications, password and photo.', 'settings.prefs' => 'Preferences', 'settings.email' => 'Email me updates',
-    'settings.email_d' => 'Status changes and reviews', 'settings.arabic_d' => 'Arabic interface', 'settings.dark' => 'Dark mode', 'settings.dark_d' => 'Easier at night',
+    'settings.sub' => 'Email, notifications, theme, password and photo.', 'settings.prefs' => 'Preferences', 'settings.email' => 'Email me updates',
+    'settings.email_d' => 'Status changes and reviews', 'settings.arabic_d' => 'Arabic interface', 'settings.dark' => 'Dark mode', 'settings.dark_d' => 'On by default · turn off for a light theme',
     'settings.saved' => 'Settings saved.', 'settings.change_password' => 'Change password', 'settings.current_password' => 'Current password',
     'settings.wrong_password' => 'Current password is incorrect.', 'settings.password_changed' => 'Password changed.', 'settings.avatar' => 'Profile photo',
     'settings.avatar_help' => 'JPG, PNG or WebP, up to 2 MB.', 'settings.upload' => 'Upload photo', 'settings.avatar_saved' => 'Photo updated.',
@@ -238,4 +238,8 @@ return [
     'err.t404' => 'Page not found', 'err.d404' => 'The page may have moved, or the link is wrong.', 'err.t500' => 'Something went wrong',
     'err.d500' => 'The error was logged. Try again in a moment.', 'err.home' => 'Go to my dashboard',
     'settings.change_photo' => 'Change photo', 'a11y.account_menu' => 'Account menu', 'settings.photo_uploading' => 'Uploading photo…',
+    'theme.toggle' => 'Switch light / dark mode', 'settings.change_email' => 'Change email', 'settings.current_email' => 'Current email',
+    'settings.new_email' => 'New email', 'settings.email_password_help' => 'Enter your password to confirm it is you.',
+    'settings.email_changed' => 'Email changed to :email. Use it next time you log in.', 'settings.email_changed_subject' => 'Your COOP email was changed',
+    'settings.email_changed_body' => "The email for your COOP account was changed to :email.\n\nIf you did not do this, contact the co-op office right away.",
 ];

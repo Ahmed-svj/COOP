@@ -57,6 +57,21 @@ class HomeController extends Controller
         $this->back();
     }
 
+    /** Flip dark/light. Saved to the account when signed in, else to this visit. */
+    public function theme(): void
+    {
+        $next = current_theme() === 'dark' ? 'light' : 'dark';
+        if ($id = Auth::id()) {
+            \UserPreference::set($id, 'dark_mode', $next === 'dark');
+        } else {
+            Session::set('theme', $next);
+        }
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            $this->json(['theme' => $next]);
+        }
+        $this->back();
+    }
+
     public function dashboard(): void
     {
         $this->redirect(match (Auth::role()) {

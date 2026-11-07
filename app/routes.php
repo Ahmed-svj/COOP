@@ -7,6 +7,7 @@ $router->get('/about', 'HomeController@about');
 $router->get('/contact', 'HomeController@contact');
 $router->post('/contact', 'HomeController@sendContact');
 $router->get('/lang/{code}', 'HomeController@lang');
+$router->post('/theme', 'HomeController@theme');
 
 // Auth
 $router->get('/login', 'AuthController@loginForm', ['guest']);
@@ -36,6 +37,7 @@ $router->group('', ['auth'], function (Router $r) {
     $r->get('/settings', 'ProfileController@settings');
     $r->post('/settings', 'ProfileController@saveSettings');
     $r->post('/settings/password', 'ProfileController@changePassword');
+    $r->post('/settings/email', 'ProfileController@changeEmail');
     $r->post('/settings/avatar', 'ProfileController@avatar');
     $r->get('/avatar/{id}', 'ProfileController@showAvatar');
     $r->get('/files/cv/{id}', 'ProfileController@downloadCv');

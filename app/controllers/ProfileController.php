@@ -12,8 +12,7 @@ class ProfileController extends Controller
     {
         $prefs = [
             'email_notifications' => pref('email_notifications', true),
-            'lang_ar'             => \Lang::current() === 'ar',
-            'dark_mode'           => pref('dark_mode', false),
+            'dark_mode'           => current_theme() === 'dark',
         ];
         $this->view('shared/settings', compact('prefs'));
     }
@@ -23,8 +22,6 @@ class ProfileController extends Controller
         $id = Auth::id();
         \UserPreference::set($id, 'email_notifications', !empty($_POST['email_notifications']));
         \UserPreference::set($id, 'dark_mode', !empty($_POST['dark_mode']));
-        \UserPreference::set($id, 'lang_ar', !empty($_POST['lang_ar']));
-        \Session::set('lang', !empty($_POST['lang_ar']) ? 'ar' : 'en');
         $phone = trim((string) ($_POST['phone'] ?? ''));
         if ($phone !== '') {
             if (!preg_match('/^05[0-9]{8}$/', $phone)) {
@@ -49,6 +46,30 @@ class ProfileController extends Controller
         \Session::regenerate();
         \AuditService::log('PASSWORD_CHANGED', 'User', (int) $user['UserID']);
         flash('success', __('settings.password_changed'));
+        $this->redirect('/settings');
+    }
+
+    /** Change the sign-in email: current password required, unique, students keep a college address. */
+    public function changeEmail(): void
+    {
+        $user = Auth::user();
+        if (!password_verify((string) ($_POST['email_password'] ?? ''), $user['PasswordHash'])) {
+            \Session::flash('errors', ['email_password' => __('settings.wrong_password')]);
+            \Session::flash('old', ['new_email' => $_POST['new_email'] ?? '']);
+            $this->redirect('/settings');
+        }
+        $_POST['new_email'] = strtolower(trim((string) ($_POST['new_email'] ?? '')));
+        $rules = 'required|email|max:190|unique:users,Email';
+        if ($user['Role'] === 'Student') {
+            $rules = 'required|email|student_email|max:190|unique:users,Email';
+        }
+        $d = $this->validate(['new_email' => $rules]);
+        $old = $user['Email'];
+        Database::query('UPDATE users SET Email = ? WHERE UserID = ?', [$d['new_email'], $user['UserID']]);
+        \Session::regenerate();
+        \AuditService::log('EMAIL_CHANGED', 'User', (int) $user['UserID'], $old . ' -> ' . $d['new_email']);
+        \MailService::send($old, __('settings.email_changed_subject'), __('settings.email_changed_body', ['email' => $d['new_email']]));
+        flash('success', __('settings.email_changed', ['email' => $d['new_email']]));
         $this->redirect('/settings');
     }
 

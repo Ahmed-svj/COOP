@@ -40,8 +40,8 @@ class Validator
         return match ($name) {
             'required'      => ($value === null || $str === '') ? __('v.required') : null,
             'email'         => filter_var($str, FILTER_VALIDATE_EMAIL) ? null : __('v.email'),
-            'student_email' => str_ends_with(strtolower($str), '@' . config('student_email_domain'))
-                                ? null : __('v.student_email', ['domain' => config('student_email_domain')]),
+            'student_email' => in_array(substr(strrchr(strtolower($str), '@') ?: '', 1), student_domains(), true)
+                                ? null : __('v.student_email', ['domain' => implode(', @', student_domains())]),
             'min'           => mb_strlen($str) < (int) $param ? __('v.min', ['n' => $param]) : null,
             'max'           => mb_strlen($str) > (int) $param ? __('v.max', ['n' => $param]) : null,
             'phone'         => preg_match('/^05[0-9]{8}$/', $str) ? null : __('v.phone'),
