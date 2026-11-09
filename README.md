@@ -9,6 +9,8 @@ MIS 451 capstone, Jubail Industrial College. Built from the *COOP Development Gu
 
 ## Run it locally
 
+**Share it with a public Cloudflare link:** see **[CLOUDFLARE.md](CLOUDFLARE.md)**. With COOP running, run `share-cloudflare.bat` (Windows) or `./share-cloudflare.sh`; it prints `https://….trycloudflare.com`.
+
 **In Visual Studio Code:** see **[VSCODE.md](VSCODE.md)**. Either reopen in the Dev Container (Docker) or run the task "COOP: Install database + demo data", then press F5.
 
 **On Windows with Laragon:** see **[LARAGON.md](LARAGON.md)**. Put the folder in `C:\laragon\www\coop`, run `install-laragon.bat` from the Laragon Terminal, and open http://coop.test.

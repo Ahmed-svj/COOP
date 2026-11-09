@@ -358,7 +358,7 @@ DO
 --  USEFUL VIEWS
 -- =====================================================================
 -- Approved opportunities visible to students (BR-07)
-CREATE VIEW v_public_opportunities AS
+CREATE SQL SECURITY INVOKER VIEW v_public_opportunities AS
 SELECT o.OpportunityID, o.Title, o.Description, o.MajorRequirements, o.City,
        o.Capacity, o.PostedDate, c.CompanyID, c.CompanyName,
        (SELECT COUNT(*) FROM applications a
@@ -368,7 +368,7 @@ JOIN companies c ON c.CompanyID = o.CompanyID
 WHERE o.Status = 'Approved' AND c.ApprovalStatus = 'Approved';
 
 -- Approved training hours per student (attendance counts only after approval)
-CREATE VIEW v_student_attendance_summary AS
+CREATE SQL SECURITY INVOKER VIEW v_student_attendance_summary AS
 SELECT s.StudentID, u.FullName, s.PlacementID,
        SUM(ar.ApprovalStatus = 'Approved') AS ApprovedDays,
        SUM(ar.ApprovalStatus = 'Pending')  AS PendingDays,
@@ -379,7 +379,7 @@ LEFT JOIN attendance_records ar ON ar.StudentID = s.StudentID
 GROUP BY s.StudentID, u.FullName, s.PlacementID;
 
 -- Supervisor current load (UC-21 warning)
-CREATE VIEW v_supervisor_load AS
+CREATE SQL SECURITY INVOKER VIEW v_supervisor_load AS
 SELECT sp.SupervisorID, u.FullName, sp.Department, sp.MaxStudentLoad, sp.ApprovalStatus,
        COUNT(s.StudentID) AS CurrentLoad
 FROM academic_supervisors sp

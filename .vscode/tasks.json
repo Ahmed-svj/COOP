@@ -6,39 +6,75 @@
       "detail": "Creates coop_db (tables, views, triggers, event, app account), .env and the demo data. Replaces an existing coop_db.",
       "type": "shell",
       "command": "php",
-      "args": ["database/install.php", "--yes", "--root-user=${input:mysqlRootUser}", "--root-pass=${input:mysqlRootPassword}"],
+      "args": [
+        "database/install.php",
+        "--yes",
+        "--root-user=${input:mysqlRootUser}",
+        "--root-pass=${input:mysqlRootPassword}"
+      ],
       "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
     },
     {
       "label": "COOP: Start website",
       "detail": "PHP built-in server on http://127.0.0.1:8080 (stop it with the trash-can icon in the terminal).",
       "type": "shell",
       "command": "php",
-      "args": ["-S", "127.0.0.1:8080", "-t", "public", "public/index.php"],
+      "args": [
+        "-S",
+        "127.0.0.1:8080",
+        "-t",
+        "public",
+        "public/index.php"
+      ],
       "isBackground": true,
       "problemMatcher": {
         "owner": "php-server",
-        "pattern": { "regexp": "^__never__$" },
-        "background": { "activeBegins": true, "beginsPattern": "PHP .* Development Server", "endsPattern": "Development Server \\(http://127\\.0\\.0\\.1:8080\\) started" }
+        "pattern": {
+          "regexp": "^__never__$"
+        },
+        "background": {
+          "activeBegins": true,
+          "beginsPattern": "PHP .* Development Server",
+          "endsPattern": "Development Server \\(http://127\\.0\\.0\\.1:8080\\) started"
+        }
       },
-      "presentation": { "reveal": "always", "panel": "dedicated" }
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "COOP: Open in browser",
       "type": "shell",
       "command": "xdg-open http://127.0.0.1:8080",
-      "windows": { "command": "start http://127.0.0.1:8080" },
-      "osx": { "command": "open http://127.0.0.1:8080" },
+      "windows": {
+        "command": "start http://127.0.0.1:8080"
+      },
+      "osx": {
+        "command": "open http://127.0.0.1:8080"
+      },
       "problemMatcher": [],
-      "presentation": { "reveal": "never" }
+      "presentation": {
+        "reveal": "never"
+      }
     },
     {
       "label": "COOP: Start website and open browser",
       "dependsOrder": "sequence",
-      "dependsOn": ["COOP: Start website", "COOP: Open in browser"],
+      "dependsOn": [
+        "COOP: Start website",
+        "COOP: Open in browser"
+      ],
       "problemMatcher": [],
-      "group": { "kind": "build", "isDefault": true }
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     },
     {
       "label": "COOP: Install test tools (once)",
@@ -53,11 +89,50 @@
       "type": "shell",
       "command": "npm test",
       "problemMatcher": [],
-      "group": { "kind": "test", "isDefault": true }
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "COOP: Share with a Cloudflare link",
+      "detail": "Public https://....trycloudflare.com link to the running site (needs cloudflared). Stop with the trash-can icon.",
+      "type": "shell",
+      "command": "bash share-cloudflare.sh",
+      "windows": {
+        "command": ".\\share-cloudflare.bat"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "cloudflared",
+        "pattern": {
+          "regexp": "^__never__$"
+        },
+        "background": {
+          "activeBegins": true,
+          "beginsPattern": "COOP - share with a Cloudflare link",
+          "endsPattern": "https://[a-z0-9-]+\\.trycloudflare\\.com"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     }
   ],
   "inputs": [
-    { "id": "mysqlRootUser", "type": "promptString", "description": "MySQL admin user (Laragon/XAMPP: root)", "default": "root" },
-    { "id": "mysqlRootPassword", "type": "promptString", "description": "MySQL admin password (Laragon/XAMPP: leave empty)", "default": "", "password": true }
+    {
+      "id": "mysqlRootUser",
+      "type": "promptString",
+      "description": "MySQL admin user (Laragon/XAMPP: root)",
+      "default": "root"
+    },
+    {
+      "id": "mysqlRootPassword",
+      "type": "promptString",
+      "description": "MySQL admin password (Laragon/XAMPP: leave empty)",
+      "default": "",
+      "password": true
+    }
   ]
 }

@@ -44,6 +44,10 @@ Build the COOP Cooperative Training Management System website described in `COOP
   - Live preview: https://ahmed-svj.github.io/COOP/ (Pages from the repository root; the root `index.html` opens `docs/`).
   - The Tests workflow passes on GitHub Actions.
   - Two problems were found and fixed on the first push: the `vendor/` ignore rule had left out Bootstrap and Chart.js, and an XSS test read the page in a way that depends on the Chromium version.
+- **Cloudflare link:** see `CLOUDFLARE.md`.
+  - `share-cloudflare.bat` (Windows, installs cloudflared via winget), `share-cloudflare.sh` (macOS/Linux) and a VS Code task start COOP on port 8080 if needed and open a free Quick Tunnel, which prints `https://….trycloudflare.com`.
+  - This session cannot reach Cloudflare, so no live link was made here. The script logic was tested with a stand-in, and the site was tested behind Cloudflare-style headers (pages, secure cookie, redirects).
+- **Views are now `SQL SECURITY INVOKER`:** they no longer break if the account that created them is deleted (found when the installer was run with a temporary admin account).
 - **Visual Studio Code:** see `VSCODE.md`.
   - `.vscode/` holds the tasks (install the database, start the website, open the browser, tests), an F5 launch that starts the site with Xdebug, and recommended extensions.
   - Option A is "Reopen in Container" (the tested `.devcontainer`). Option B is local PHP and MySQL with the new cross-platform `database/install.php` (no `mysql` command-line client needed; it handles the `DELIMITER` blocks itself).
